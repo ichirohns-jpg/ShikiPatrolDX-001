@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>投稿一覧 | 志木パトロールDX</title>
+
+<style>
+
+body{
+margin:0;
+background:#eef3f8;
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+}
+
+.header{
+background:#1976d2;
+color:#fff;
+padding:20px;
+font-size:28px;
+font-weight:bold;
+text-align:center;
+}
+
+.wrap{
+max-width:900px;
+margin:0 auto;
+padding:16px;
+}
+
+.card{
+background:#fff;
+border-radius:20px;
+padding:18px;
+margin-bottom:18px;
+box-shadow:0 4px 14px rgba(0,0,0,.08);
+}
+
+.type{
+display:inline-block;
+background:#e3f2fd;
+color:#1565c0;
+padding:6px 12px;
+border-radius:999px;
+font-size:13px;
+font-weight:bold;
+margin-bottom:12px;
+}
+
+.photo{
+width:100%;
+border-radius:14px;
+margin-top:14px;
+}
+
+.mapbtn{
+display:inline-block;
+margin-top:14px;
+background:#1976d2;
+color:#fff;
+padding:12px 18px;
+border-radius:12px;
+text-decoration:none;
+font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+志木パトロールDX
+</div>
+
+<div class="wrap" id="list">
+
+</div>
+
+<script>
+
+const list = document.getElementById('list');
+
+const data = [
+{
+type:'道路の穴',
+detail:'道路中央に穴があります。',
+img:'https://placehold.jp/800x500.png',
+map:'#'
+},
+{
+type:'標識破損',
+detail:'標識が傾いています。',
+img:'https://placehold.jp/800x500.png',
+map:'#'
+}
+];
+
+data.forEach(item=>{
+
+list.innerHTML += `
+<div class="card">
+
+<div class="type">
+${item.type}
+</div>
+
+<div>
+${item.detail}
+</div>
+
+<img class="photo"
+src="${item.img}">
+
+<br>
+
+<a
+class="mapbtn"
+href="${item.map}">
+
+Googleマップを見る
+
+</a>
+
+</div>
+`;
+
+});
+
+</script>
+
+</body>
+</html>
