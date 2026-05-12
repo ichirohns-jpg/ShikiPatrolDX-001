@@ -207,11 +207,11 @@ h1{
 
 <script>
 const SHEET_URL =
-  'https://docs.google.com/spreadsheets/d/1393zzt2GgqS5v0Hsdtu-3w0ntM3ff2KG0kOOPBaxHk4/gviz/tq?sheet=%E5%BF%97%E6%9C%A8%E3%83%91%E3%83%88%E3%83%AD%E3%83%BC%E3%83%ABDX&tqx=out:json;responseHandler=handleSheet';
+  'https://docs.google.com/spreadsheets/d/1393zzt2GgqS5v0Hsdtu-3w0ntM3ff2KG0kOOPBaxHk4/gviz/tq?sheet=%E5%BF%97%E6%9C%A8%E3%83%91%E3%83%88%E3%83%AD%E3%83%BC%E3%83%ABDX&tqx=out:json;responseHandler:handleSheet';
 
 function loadSheet(){
   const script = document.createElement('script');
-  script.src = SHEET_URL + '&cache=' + Date.now();
+  script.src = SHEET_URL;
   script.onerror = function(){
     showError('Googleシートを読み込めませんでした。共有設定、シート名、列名を確認してください。');
   };
