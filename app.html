@@ -4,11 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>志木パトロールDX 投稿一覧</title>
-
-<meta property="og:title" content="志木パトロールDX">
-<meta property="og:description" content="地域の異常情報を確認できます">
-<meta property="og:image" content="https://ichirohns-jpg.github.io/ShikiPatrolDX-001/top.jpg">
+<title>志木パトロールDX</title>
 
 <style>
 *{
@@ -106,6 +102,7 @@ body{
   line-height:1.8;
   margin-bottom:20px;
   white-space:pre-wrap;
+  text-align:left;
 }
 
 .photo{
@@ -201,7 +198,9 @@ body{
 </div>
 
 <div class="nav">
-  <a href="index.html" class="home-btn">トップへ</a>
+  <a href="index.html" class="home-btn">
+    トップへ
+  </a>
 
   <a
     href="https://www.appsheet.com/start/76993072-05e5-4df2-85fe-30e175d313bc#table=%E5%BF%97%E6%9C%A8%E3%83%91%E3%83%88%E3%83%AD%E3%83%BC%E3%83%ABDX&page=form&defaults=%5B%5D"
@@ -275,7 +274,7 @@ window.handlePatrolData = function(res){
         </div>
 
         <div class="date">
-          ${escapeHtml(item.date)}
+          ${formatDate(item.date)}
         </div>
 
         <div class="detail">
@@ -311,6 +310,21 @@ window.handlePatrolData = function(res){
 
   list.innerHTML = html;
 };
+
+function formatDate(dateStr){
+
+  if(!dateStr) return '';
+
+  const d = new Date(dateStr);
+
+  if(isNaN(d)) return dateStr;
+
+  return (
+    d.getFullYear() + '/' +
+    String(d.getMonth()+1).padStart(2,'0') + '/' +
+    String(d.getDate()).padStart(2,'0')
+  );
+}
 
 function getStatusClass(status){
 
