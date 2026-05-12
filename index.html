@@ -1,145 +1,178 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>志木パトロールDX</title>
+  <title>志木パトロールDX</title>
 
-<meta property="og:title" content="志木パトロールDX">
-<meta property="og:description" content="地域の危険箇所や異常を、写真と位置情報で共有する地域見守りDX">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://ichirohns-jpg.github.io/ShikiPatrolDX-001/">
-<meta property="og:image" content="https://ichirohns-jpg.github.io/ShikiPatrolDX-001/top.jpg">
-<meta name="twitter:card" content="summary_large_image">
+  <meta name="description" content="道路の穴、街灯切れ、不法投棄など、地域の小さな異常を写真と位置情報で知らせるページです。">
 
-<link rel="icon" href="icon.png">
+  <meta property="og:title" content="志木パトロールDX">
+  <meta property="og:description" content="地域の小さな異常を、写真と位置情報で知らせる住民参加型DXです。">
+  <meta property="og:image" content="https://ichirohns-jpg.github.io/ShikiPatrolDX-001/top.jpg">
+  <meta property="og:url" content="https://ichirohns-jpg.github.io/ShikiPatrolDX-001/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ja_JP">
 
-<style>
-*{
-  box-sizing:border-box;
-}
+  <link rel="icon" href="icon.png">
 
-body{
-  margin:0;
-  background:#eef3f8;
-  font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-  color:#17324d;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-.hero{
-  width:100%;
-  aspect-ratio:16/9;
-  object-fit:cover;
-  display:block;
-}
+    body {
+      margin: 0;
+      font-family: "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+      background: #eef5fb;
+      color: #17324d;
+      line-height: 1.7;
+    }
 
-.wrap{
-  max-width:900px;
-  margin:0 auto;
-  padding:20px;
-}
+    .wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 14px;
+    }
 
-.card{
-  background:#fff;
-  border-radius:22px;
-  padding:24px;
-  box-shadow:0 6px 18px rgba(0,0,0,.10);
-}
+    .hero {
+      background: #ffffff;
+      border-radius: 26px;
+      overflow: hidden;
+      box-shadow: 0 8px 28px rgba(20, 70, 120, 0.18);
+    }
 
-.title{
-  font-size:34px;
-  font-weight:900;
-  margin-bottom:14px;
-  color:#12385f;
-}
+    .hero img {
+      width: 100%;
+      display: block;
+      background: #dbeaf5;
+    }
 
-.desc{
-  font-size:18px;
-  line-height:1.8;
-  color:#35506e;
-}
+    .content {
+      padding: 24px 20px 30px;
+      text-align: center;
+    }
 
-.notice{
-  margin-top:18px;
-  padding:14px;
-  background:#f1f8ff;
-  border-left:5px solid #1976d2;
-  border-radius:10px;
-  font-size:15px;
-  line-height:1.7;
-}
+    .badge {
+      display: inline-block;
+      background: #e6f3ff;
+      color: #1267a8;
+      font-weight: 800;
+      padding: 7px 14px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+      font-size: 15px;
+    }
 
-.btn{
-  display:block;
-  margin-top:18px;
-  padding:18px;
-  border-radius:16px;
-  text-align:center;
-  text-decoration:none;
-  font-size:20px;
-  font-weight:bold;
-}
+    h1 {
+      margin: 0 0 10px;
+      font-size: 34px;
+      line-height: 1.25;
+      color: #0b3d66;
+      font-weight: 900;
+    }
 
-.report{
-  background:#1976d2;
-  color:#fff;
-}
+    .lead {
+      font-size: 19px;
+      font-weight: 700;
+      margin: 0 0 18px;
+      color: #294b63;
+    }
 
-.list{
-  background:#fff;
-  border:2px solid #1976d2;
-  color:#1976d2;
-}
+    .text {
+      font-size: 16px;
+      text-align: left;
+      background: #f7fbff;
+      border-radius: 18px;
+      padding: 16px;
+      margin: 18px 0;
+    }
 
-footer{
-  text-align:center;
-  padding:28px 10px 50px;
-  font-size:13px;
-  color:#6b7c90;
-}
-</style>
+    .buttons {
+      display: grid;
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .btn {
+      display: block;
+      text-decoration: none;
+      color: #ffffff;
+      font-size: 21px;
+      font-weight: 900;
+      padding: 18px 16px;
+      border-radius: 18px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+    }
+
+    .btn.report {
+      background: linear-gradient(135deg, #0a84ff, #005bbb);
+    }
+
+    .btn.list {
+      background: linear-gradient(135deg, #18a058, #08783d);
+    }
+
+    .note {
+      margin-top: 18px;
+      font-size: 14px;
+      color: #587086;
+      text-align: left;
+      background: #ffffff;
+      border-left: 5px solid #0a84ff;
+      padding: 12px 14px;
+      border-radius: 12px;
+    }
+
+    footer {
+      text-align: center;
+      color: #60788d;
+      font-size: 13px;
+      padding: 22px 6px 10px;
+    }
+  </style>
 </head>
 
 <body>
+  <div class="wrap">
+    <main class="hero">
+      <img src="top.jpg" alt="志木パトロールDX">
 
-<img class="hero" src="top.jpg" alt="志木パトロールDX">
+      <div class="content">
+        <div class="badge">住民参加型 地域見守りDX</div>
 
-<div class="wrap">
+        <h1>志木パトロールDX</h1>
 
-  <div class="card">
+        <p class="lead">
+          道路の穴、街灯切れ、不法投棄などを<br>
+          写真と位置情報で知らせるページです。
+        </p>
 
-    <div class="title">
+        <div class="text">
+          地域で見つけた小さな異常を、スマートフォンから簡単に投稿できます。
+          投稿された内容は確認ページに整理され、写真・場所・内容を見やすく確認できます。
+        </div>
+
+        <div class="buttons">
+          <a class="btn report" href="https://www.appsheet.com/start/76993072-05e5-4df2-85fe-30e175d313bc" target="_blank" rel="noopener">
+            通報する
+          </a>
+
+          <a class="btn list" href="app.html">
+            投稿一覧を見る
+          </a>
+        </div>
+
+        <div class="note">
+          ※ 緊急の場合は、このページではなく警察・消防・市役所など必要な窓口へ直接連絡してください。
+        </div>
+      </div>
+    </main>
+
+    <footer>
       志木パトロールDX
-    </div>
-
-    <div class="desc">
-      地域の危険箇所や異常を、写真と位置情報で共有する地域見守りDXです。<br>
-      道路の穴、街灯切れ、標識破損、不法投棄、公園の異常などを、スマートフォンから簡単に投稿できます。
-    </div>
-
-    <div class="notice">
-      投稿された内容は、確認用ページで一覧表示されます。<br>
-      写真・位置情報・内容をもとに、地域の小さな異常を見える化します。
-    </div>
-
-    <a class="btn report"
-       href="https://YOUR-APPSHEET-LINK">
-      通報する
-    </a>
-
-    <a class="btn list"
-       href="app.html">
-      投稿一覧を見る
-    </a>
-
+    </footer>
   </div>
-
-</div>
-
-<footer>
-  Shiki Patrol DX
-</footer>
-
 </body>
 </html>
