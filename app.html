@@ -7,127 +7,247 @@
 <title>投稿一覧 | 志木パトロールDX</title>
 
 <style>
+*{box-sizing:border-box}
 
 body{
-margin:0;
-background:#eef3f8;
-font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+  margin:0;
+  background:#eef3f8;
+  font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  color:#17324d;
 }
 
 .header{
-background:#1976d2;
-color:#fff;
-padding:20px;
-font-size:28px;
-font-weight:bold;
-text-align:center;
+  background:#1976d2;
+  color:#fff;
+  padding:20px 14px;
+  text-align:center;
+  font-size:28px;
+  font-weight:900;
+}
+
+.sub{
+  font-size:14px;
+  margin-top:6px;
+  opacity:.9;
 }
 
 .wrap{
-max-width:900px;
-margin:0 auto;
-padding:16px;
+  max-width:900px;
+  margin:0 auto;
+  padding:16px;
 }
 
 .card{
-background:#fff;
-border-radius:20px;
-padding:18px;
-margin-bottom:18px;
-box-shadow:0 4px 14px rgba(0,0,0,.08);
+  background:#fff;
+  border-radius:22px;
+  padding:18px;
+  margin-bottom:18px;
+  box-shadow:0 6px 18px rgba(0,0,0,.10);
 }
 
 .type{
-display:inline-block;
-background:#e3f2fd;
-color:#1565c0;
-padding:6px 12px;
-border-radius:999px;
-font-size:13px;
-font-weight:bold;
-margin-bottom:12px;
+  display:inline-block;
+  background:#e3f2fd;
+  color:#1565c0;
+  padding:7px 13px;
+  border-radius:999px;
+  font-size:14px;
+  font-weight:900;
+  margin-bottom:10px;
+}
+
+.date{
+  font-size:13px;
+  color:#667;
+  margin-bottom:10px;
+}
+
+.detail{
+  font-size:17px;
+  line-height:1.7;
+  white-space:pre-wrap;
 }
 
 .photo{
-width:100%;
-border-radius:14px;
-margin-top:14px;
+  width:100%;
+  border-radius:16px;
+  margin-top:14px;
+  display:block;
+  background:#ddd;
+}
+
+.photoBox{
+  margin-top:14px;
+  padding:14px;
+  background:#f6f8fb;
+  border-radius:14px;
+  color:#667;
+  font-size:14px;
+  line-height:1.6;
+}
+
+.btns{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:14px;
+}
+
+.btn{
+  display:block;
+  text-align:center;
+  padding:13px 16px;
+  border-radius:13px;
+  text-decoration:none;
+  font-weight:900;
+  font-size:16px;
 }
 
 .mapbtn{
-display:inline-block;
-margin-top:14px;
-background:#1976d2;
-color:#fff;
-padding:12px 18px;
-border-radius:12px;
-text-decoration:none;
-font-weight:bold;
+  background:#1976d2;
+  color:#fff;
 }
 
+.sharebtn{
+  background:#fff;
+  color:#1976d2;
+  border:2px solid #1976d2;
+}
+
+.status{
+  margin-top:14px;
+  font-size:14px;
+  color:#666;
+  font-weight:bold;
+}
+
+.empty{
+  background:#fff;
+  border-radius:18px;
+  padding:22px;
+  text-align:center;
+  color:#667;
+}
 </style>
 </head>
 
 <body>
 
 <div class="header">
-志木パトロールDX
+  志木パトロールDX
+  <div class="sub">投稿一覧・確認ページ</div>
 </div>
 
 <div class="wrap" id="list">
-
+  <div class="empty">読み込み中...</div>
 </div>
 
 <script>
+const SHEET_ID = "1393zzt2GgqS5v0Hsdtu-3w0ntM3ff2KG0kOOPBaxHk4";
+const SHEET_NAME = "志木パトロールDX";
 
-const list = document.getElementById('list');
+const list = document.getElementById("list");
 
-const data = [
-{
-type:'道路の穴',
-detail:'道路中央に穴があります。',
-img:'https://placehold.jp/800x500.png',
-map:'#'
-},
-{
-type:'標識破損',
-detail:'標識が傾いています。',
-img:'https://placehold.jp/800x500.png',
-map:'#'
+function val(row, name){
+  if(!row || !row[name]) return "";
+  return row[name].v || "";
 }
-];
 
-data.forEach(item=>{
+function esc(s){
+  return String(s || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;");
+}
 
-list.innerHTML += `
-<div class="card">
+function makeMapUrl(loc){
+  if(!loc) return "";
+  return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(loc);
+}
 
-<div class="type">
-${item.type}
-</div>
+function makePhotoHtml(photo){
+  if(!photo) return "";
 
-<div>
-${item.detail}
-</div>
+  if(String(photo).startsWith("http")){
+    return `<img class="photo" src="${esc(photo)}" alt="投稿写真">`;
+  }
 
-<img class="photo"
-src="${item.img}">
+  return `
+    <div class="photoBox">
+      写真ファイル：<br>
+      ${esc(photo)}<br><br>
+      ※AppSheet保存画像です。画像本体はGoogleドライブ側に保存されています。
+    </div>
+  `;
+}
 
-<br>
+window.handleSheet = function(json){
 
-<a
-class="mapbtn"
-href="${item.map}">
+  const cols = json.table.cols.map(c => c.label || "");
+  const rows = json.table.rows.map((r, index) => {
+    const obj = {};
+    cols.forEach((c, i) => {
+      obj[c] = r.c[i] || {};
+    });
+    obj.__index = index + 1;
+    return obj;
+  });
 
-Googleマップを見る
+  if(rows.length === 0){
+    list.innerHTML = `<div class="empty">まだ投稿がありません。</div>`;
+    return;
+  }
 
-</a>
+  rows.reverse();
 
-</div>
-`;
+  list.innerHTML = "";
 
-});
+  rows.forEach((row, i) => {
 
+    const date = val(row, "報告日時");
+    const type = val(row, "異常の種類");
+    const detail = val(row, "内容詳細");
+    const photo = val(row, "写真");
+    const loc = val(row, "位置情報");
+    const status = val(row, "対応ステータス") || "未対応";
+
+    const mapUrl = makeMapUrl(loc);
+    const photoHtml = makePhotoHtml(photo);
+
+    list.innerHTML += `
+      <div class="card">
+
+        <div class="type">${esc(type || "未分類")}</div>
+
+        <div class="date">${esc(date)}</div>
+
+        <div class="detail">${esc(detail || "内容未入力")}</div>
+
+        ${photoHtml}
+
+        <div class="btns">
+          ${mapUrl ? `<a class="btn mapbtn" href="${mapUrl}" target="_blank">Googleマップで見る</a>` : ""}
+          <a class="btn sharebtn" href="share-001.html">SNS用ページを開く</a>
+        </div>
+
+        <div class="status">
+          対応状況：${esc(status)}
+        </div>
+
+      </div>
+    `;
+  });
+};
+
+const script = document.createElement("script");
+script.src =
+  "https://docs.google.com/spreadsheets/d/" +
+  SHEET_ID +
+  "/gviz/tq?sheet=" +
+  encodeURIComponent(SHEET_NAME) +
+  "&tqx=out:json;responseHandler=handleSheet";
+document.body.appendChild(script);
 </script>
 
 </body>
