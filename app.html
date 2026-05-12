@@ -4,129 +4,146 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>投稿一覧 | 志木パトロールDX</title>
+<title>志木パトロールDX 投稿一覧</title>
+
+<meta name="description" content="志木パトロールDX 投稿一覧ページ">
+
+<meta property="og:title" content="志木パトロールDX">
+<meta property="og:description" content="地域の異常情報を確認できます">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/ShikiPatrolDX-001/top.jpg">
+<meta property="og:url" content="https://ichirohns-jpg.github.io/ShikiPatrolDX-001/app.html">
+<meta property="og:type" content="website">
 
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
 
 body{
   margin:0;
-  background:#eef3f8;
+  background:#eef5fb;
   font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
   color:#17324d;
 }
 
 .header{
-  background:#1976d2;
-  color:#fff;
-  padding:20px 14px;
-  text-align:center;
-  font-size:28px;
-  font-weight:900;
+  width:100%;
+  max-width:760px;
+  margin:0 auto;
+  padding:14px;
 }
 
-.sub{
-  font-size:14px;
-  margin-top:6px;
-  opacity:.9;
+.top-image{
+  width:100%;
+  border-radius:24px;
+  display:block;
+  box-shadow:0 6px 20px rgba(0,0,0,.15);
 }
 
 .wrap{
-  max-width:900px;
+  width:100%;
+  max-width:760px;
   margin:0 auto;
-  padding:16px;
+  padding:0 14px 80px;
+}
+
+.title{
+  font-size:34px;
+  font-weight:900;
+  margin:20px 0 10px;
+  color:#0c3c66;
+}
+
+.desc{
+  font-size:17px;
+  line-height:1.8;
+  margin-bottom:24px;
 }
 
 .card{
   background:#fff;
-  border-radius:22px;
+  border-radius:24px;
   padding:18px;
-  margin-bottom:18px;
-  box-shadow:0 6px 18px rgba(0,0,0,.10);
+  margin-bottom:24px;
+  box-shadow:0 6px 20px rgba(0,0,0,.12);
 }
 
-.type{
+.kind{
   display:inline-block;
-  background:#e3f2fd;
-  color:#1565c0;
-  padding:7px 13px;
-  border-radius:999px;
+  background:#dff0ff;
+  color:#005a9c;
+  font-weight:800;
   font-size:14px;
-  font-weight:900;
-  margin-bottom:10px;
+  padding:7px 12px;
+  border-radius:999px;
+  margin-bottom:12px;
 }
 
 .date{
-  font-size:13px;
-  color:#667;
-  margin-bottom:10px;
+  font-size:14px;
+  color:#587086;
+  margin-bottom:12px;
 }
 
 .detail{
-  font-size:17px;
-  line-height:1.7;
+  font-size:18px;
+  line-height:1.8;
+  margin-bottom:16px;
   white-space:pre-wrap;
 }
 
 .photo{
   width:100%;
-  border-radius:16px;
-  margin-top:14px;
-  display:block;
-  background:#ddd;
-}
-
-.photoBox{
-  margin-top:14px;
-  padding:14px;
-  background:#f6f8fb;
-  border-radius:14px;
-  color:#667;
-  font-size:14px;
-  line-height:1.6;
-}
-
-.btns{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-  margin-top:14px;
-}
-
-.btn{
-  display:block;
-  text-align:center;
-  padding:13px 16px;
-  border-radius:13px;
-  text-decoration:none;
-  font-weight:900;
-  font-size:16px;
-}
-
-.mapbtn{
-  background:#1976d2;
-  color:#fff;
-}
-
-.sharebtn{
-  background:#fff;
-  color:#1976d2;
-  border:2px solid #1976d2;
+  border-radius:18px;
+  margin-bottom:14px;
+  background:#d9e7f2;
 }
 
 .status{
-  margin-top:14px;
+  display:inline-block;
+  margin-top:10px;
+  background:#eef7e9;
+  color:#257942;
+  padding:8px 14px;
+  border-radius:999px;
+  font-weight:800;
   font-size:14px;
-  color:#666;
-  font-weight:bold;
+}
+
+.map-btn{
+  display:block;
+  width:100%;
+  text-align:center;
+  background:linear-gradient(135deg,#0a84ff,#005bbb);
+  color:#fff;
+  text-decoration:none;
+  padding:16px;
+  border-radius:16px;
+  font-size:18px;
+  font-weight:900;
+  margin-top:16px;
+}
+
+.loading{
+  text-align:center;
+  font-size:20px;
+  padding:50px 20px;
+  color:#4b6880;
 }
 
 .empty{
-  background:#fff;
-  border-radius:18px;
-  padding:22px;
   text-align:center;
-  color:#667;
+  background:#fff;
+  padding:40px 20px;
+  border-radius:20px;
+  font-size:18px;
+}
+
+.footer{
+  text-align:center;
+  color:#678095;
+  font-size:13px;
+  padding:30px 10px 60px;
 }
 </style>
 </head>
@@ -134,120 +151,143 @@ body{
 <body>
 
 <div class="header">
-  志木パトロールDX
-  <div class="sub">投稿一覧・確認ページ</div>
+  <img src="top.jpg" class="top-image">
 </div>
 
-<div class="wrap" id="list">
-  <div class="empty">読み込み中...</div>
+<div class="wrap">
+
+  <div class="title">
+    志木パトロールDX
+  </div>
+
+  <div class="desc">
+    投稿された地域情報を確認できます。<br>
+    道路の穴、街灯切れ、不法投棄などを一覧表示しています。
+  </div>
+
+  <div id="list">
+    <div class="loading">
+      読み込み中...
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  志木パトロールDX
 </div>
 
 <script>
-const SHEET_ID = "1393zzt2GgqS5v0Hsdtu-3w0ntM3ff2KG0kOOPBaxHk4";
-const SHEET_NAME = "志木パトロールDX";
+const SHEET_ID = '1393zzt2GgqS5v0Hsdtu-3w0ntM3ff2KG0kOOPBaxHk4';
+const SHEET_NAME = '志木パトロールDX';
 
-const list = document.getElementById("list");
+const JSONP_URL =
+'https://docs.google.com/spreadsheets/d/' +
+SHEET_ID +
+'/gviz/tq?sheet=' +
+encodeURIComponent(SHEET_NAME) +
+'&tqx=out:json;responseHandler=handleSheet';
 
-function val(row, name){
-  if(!row || !row[name]) return "";
-  return row[name].v || "";
-}
-
-function esc(s){
-  return String(s || "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;");
-}
-
-function makeMapUrl(loc){
-  if(!loc) return "";
-  return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(loc);
-}
-
-function makePhotoHtml(photo){
-  if(!photo) return "";
-
-  if(String(photo).startsWith("http")){
-    return `<img class="photo" src="${esc(photo)}" alt="投稿写真">`;
-  }
-
-  return `
-    <div class="photoBox">
-      写真ファイル：<br>
-      ${esc(photo)}<br><br>
-      ※AppSheet保存画像です。画像本体はGoogleドライブ側に保存されています。
-    </div>
-  `;
+function loadSheet(){
+  const script = document.createElement('script');
+  script.src = JSONP_URL;
+  document.body.appendChild(script);
 }
 
 window.handleSheet = function(json){
 
-  const cols = json.table.cols.map(c => c.label || "");
-  const rows = json.table.rows.map((r, index) => {
-    const obj = {};
-    cols.forEach((c, i) => {
-      obj[c] = r.c[i] || {};
-    });
-    obj.__index = index + 1;
-    return obj;
-  });
+  const rows = json.table.rows || [];
+  const list = document.getElementById('list');
 
-  if(rows.length === 0){
-    list.innerHTML = `<div class="empty">まだ投稿がありません。</div>`;
+  if(!rows.length){
+    list.innerHTML = `
+      <div class="empty">
+        まだ投稿はありません
+      </div>
+    `;
     return;
   }
 
-  rows.reverse();
+  let html = '';
 
-  list.innerHTML = "";
+  rows.reverse().forEach((r)=>{
 
-  rows.forEach((row, i) => {
+    const c = r.c || [];
 
-    const date = val(row, "報告日時");
-    const type = val(row, "異常の種類");
-    const detail = val(row, "内容詳細");
-    const photo = val(row, "写真");
-    const loc = val(row, "位置情報");
-    const status = val(row, "対応ステータス") || "未対応";
+    const date = getCell(c,0);
+    const kind = getCell(c,1);
+    const detail = getCell(c,2);
+    const photo = getCell(c,3);
+    const location = getCell(c,4);
+    const status = getCell(c,5);
 
-    const mapUrl = makeMapUrl(loc);
-    const photoHtml = makePhotoHtml(photo);
+    const mapUrl = buildMapUrl(location);
 
-    list.innerHTML += `
+    html += `
       <div class="card">
 
-        <div class="type">${esc(type || "未分類")}</div>
-
-        <div class="date">${esc(date)}</div>
-
-        <div class="detail">${esc(detail || "内容未入力")}</div>
-
-        ${photoHtml}
-
-        <div class="btns">
-          ${mapUrl ? `<a class="btn mapbtn" href="${mapUrl}" target="_blank">Googleマップで見る</a>` : ""}
-          <a class="btn sharebtn" href="share-001.html">SNS用ページを開く</a>
+        <div class="kind">
+          ${escapeHtml(kind)}
         </div>
 
-        <div class="status">
-          対応状況：${esc(status)}
+        <div class="date">
+          ${escapeHtml(date)}
         </div>
+
+        <div class="detail">
+          ${escapeHtml(detail)}
+        </div>
+
+        ${
+          photo
+          ? `<img class="photo" src="${photo}" loading="lazy">`
+          : ''
+        }
+
+        ${
+          status
+          ? `<div class="status">${escapeHtml(status)}</div>`
+          : ''
+        }
+
+        ${
+          mapUrl
+          ? `<a class="map-btn" href="${mapUrl}" target="_blank">
+              Googleマップを見る
+             </a>`
+          : ''
+        }
 
       </div>
     `;
   });
+
+  list.innerHTML = html;
 };
 
-const script = document.createElement("script");
-script.src =
-  "https://docs.google.com/spreadsheets/d/" +
-  SHEET_ID +
-  "/gviz/tq?sheet=" +
-  encodeURIComponent(SHEET_NAME) +
-  "&tqx=out:json;responseHandler=handleSheet";
-document.body.appendChild(script);
+function getCell(c,i){
+  return c[i] && c[i].v ? String(c[i].v) : '';
+}
+
+function escapeHtml(str){
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;');
+}
+
+function buildMapUrl(location){
+
+  if(!location) return '';
+
+  if(location.includes(',')){
+    return 'https://maps.google.com/?q=' + encodeURIComponent(location);
+  }
+
+  return '';
+}
+
+loadSheet();
 </script>
 
 </body>
