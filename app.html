@@ -171,6 +171,53 @@ body{
   margin-top:22px;
 }
 
+.share-box{
+  margin-top:18px;
+  padding-top:16px;
+  border-top:1px solid #e0edf7;
+}
+
+.share-title{
+  font-size:15px;
+  font-weight:900;
+  color:#45657d;
+  margin-bottom:10px;
+}
+
+.share-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.share-btn{
+  display:block;
+  border:none;
+  text-align:center;
+  text-decoration:none;
+  color:#fff;
+  font-size:16px;
+  font-weight:900;
+  padding:13px 8px;
+  border-radius:14px;
+}
+
+.copy-btn{
+  background:#516a80;
+}
+
+.fb-btn{
+  background:#1877f2;
+}
+
+.line-btn{
+  background:#06c755;
+}
+
+.x-btn{
+  background:#111;
+}
+
 .loading{
   text-align:center;
   font-size:26px;
@@ -235,9 +282,17 @@ body{
 const GAS_URL =
 'https://script.google.com/macros/s/AKfycbys6bU-HEVqwzYuFrckbc1yEY2wv8MU1r0oqW9XvePaBRFK8rBojj3_Dl5P-eahMvkS/exec';
 
+const APP_URL =
+'https://ichirohns-jpg.github.io/ShikiPatrolDX-001/app.html';
+
 function loadData(){
+
   const script = document.createElement('script');
-  script.src = GAS_URL + '?callback=handlePatrolData&_=' + Date.now();
+
+  script.src =
+    GAS_URL +
+    '?callback=handlePatrolData&_=' +
+    Date.now();
 
   script.onerror = function(){
     showError('データを取得できませんでした');
@@ -256,15 +311,26 @@ window.handlePatrolData = function(res){
   const list = document.getElementById('list');
 
   if(!res.data || res.data.length === 0){
-    list.innerHTML = '<div class="error">投稿がありません</div>';
+    list.innerHTML =
+      '<div class="error">投稿がありません</div>';
     return;
   }
 
   let html = '';
 
-  res.data.forEach(item => {
+  res.data.forEach((item,index) => {
 
-    const statusClass = getStatusClass(item.status);
+    const statusClass =
+      getStatusClass(item.status);
+
+    const articleUrl =
+      APP_URL + '?id=' + (index + 1);
+
+    const shareText =
+      '志木パトロールDX\n' +
+      '【' + (item.kind || '地域情報') + '】\n' +
+      (item.detail || '') + '\n' +
+      articleUrl;
 
     html += `
       <div class="card">
@@ -279,6 +345,7 @@ window.handlePatrolData = function(res){
 
         <div class="info-box">
           <div class="info-label">内容</div>
+
           <div class="info-text">
             ${escapeHtml(item.detail || '詳細内容は未入力です。')}
           </div>
@@ -305,6 +372,45 @@ window.handlePatrolData = function(res){
           : ''
         }
 
+        <div class="share-box">
+
+          <div class="share-title">
+            この記事を共有
+          </div>
+
+          <div class="share-grid">
+
+            <button
+              class="share-btn copy-btn"
+              onclick="copyShare('${encodeURIComponent(shareText)}')">
+              URLコピー
+            </button>
+
+            <a
+              class="share-btn fb-btn"
+              target="_blank"
+              href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(articleUrl)}">
+              Facebook
+            </a>
+
+            <a
+              class="share-btn line-btn"
+              target="_blank"
+              href="https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(articleUrl)}">
+              LINE
+            </a>
+
+            <a
+              class="share-btn x-btn"
+              target="_blank"
+              href="https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}">
+              X
+            </a>
+
+          </div>
+
+        </div>
+
       </div>
     `;
   });
@@ -312,8 +418,29 @@ window.handlePatrolData = function(res){
   list.innerHTML = html;
 };
 
+function copyShare(encodedText){
+
+  const text =
+    decodeURIComponent(encodedText);
+
+  if(navigator.clipboard){
+
+    navigator.clipboard.writeText(text)
+      .then(function(){
+        alert('投稿文とURLをコピーしました');
+      });
+
+  }else{
+
+    prompt('コピーしてください', text);
+
+  }
+}
+
 function getStatusClass(status){
-  const s = String(status || '');
+
+  const s =
+    String(status || '');
 
   if(s.includes('済')) return 'green';
   if(s.includes('中')) return 'yellow';
@@ -323,6 +450,7 @@ function getStatusClass(status){
 }
 
 function escapeHtml(str){
+
   return String(str || '')
     .replace(/&/g,'&amp;')
     .replace(/</g,'&lt;')
@@ -330,8 +458,11 @@ function escapeHtml(str){
 }
 
 function showError(msg){
+
   document.getElementById('list').innerHTML =
-    '<div class="error">' + escapeHtml(msg) + '</div>';
+    '<div class="error">' +
+    escapeHtml(msg) +
+    '</div>';
 }
 
 loadData();
