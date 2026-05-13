@@ -80,6 +80,9 @@ const GAS_URL =
 const SHARE_URL =
 'https://ichirohns-jpg.github.io/ShikiPatrolDX-001/share-001.html';
 
+const X_TEXT =
+'志木パトロールDX%0Aユリノキ通りの標識異常%0A地域の危険箇所を写真と地図で確認できます。';
+
 function loadData(){
   const script = document.createElement('script');
   script.src = GAS_URL + '?callback=handlePatrolData&_=' + Date.now();
@@ -105,10 +108,10 @@ window.handlePatrolData = function(res){
   res.data.forEach((item) => {
     const statusClass = getStatusClass(item.status);
 
-    const shareText =
+    const copyText =
       '志木パトロールDX\n' +
-      '【' + (item.kind || '地域情報') + '】\n' +
-      (item.detail || '') + '\n' +
+      'ユリノキ通りの標識異常\n' +
+      '地域の危険箇所を写真と地図で確認できます。\n' +
       SHARE_URL;
 
     html += `
@@ -144,7 +147,7 @@ window.handlePatrolData = function(res){
 
           <div class="share-grid">
 
-            <button class="share-btn copy-btn" onclick="copyShare('${encodeURIComponent(shareText)}')">
+            <button class="share-btn copy-btn" onclick="copyShare('${encodeURIComponent(copyText)}')">
               URLコピー
             </button>
 
@@ -162,7 +165,7 @@ window.handlePatrolData = function(res){
 
             <a class="share-btn x-btn"
                target="_blank"
-               href="https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(SHARE_URL)}">
+               href="https://twitter.com/intent/tweet?text=${X_TEXT}&url=${encodeURIComponent(SHARE_URL)}">
               X
             </a>
 
