@@ -7,18 +7,21 @@
 
 <style>
 *{box-sizing:border-box}
+
 body{
   margin:0;
   background:#eef5fb;
   font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
   color:#17324d;
 }
+
 .wrap{
   width:100%;
   max-width:760px;
   margin:0 auto;
   padding:14px 10px 80px;
 }
+
 .top-image{
   width:100%;
   border-radius:22px;
@@ -26,6 +29,7 @@ body{
   margin-bottom:22px;
   box-shadow:0 6px 20px rgba(0,0,0,.15);
 }
+
 .title{
   font-size:34px;
   font-weight:900;
@@ -33,16 +37,19 @@ body{
   margin-bottom:14px;
   color:#0c3c66;
 }
+
 .desc{
   font-size:18px;
   line-height:1.7;
   margin-bottom:22px;
 }
+
 .nav{
   display:flex;
   gap:10px;
   margin-bottom:22px;
 }
+
 .nav a{
   flex:1;
   text-align:center;
@@ -53,8 +60,15 @@ body{
   border-radius:17px;
   color:#fff;
 }
-.home-btn{background:#617890}
-.post-btn{background:linear-gradient(135deg,#1d93ff,#0068d9)}
+
+.home-btn{
+  background:#617890;
+}
+
+.post-btn{
+  background:linear-gradient(135deg,#1d93ff,#0068d9);
+}
+
 .card{
   background:#fff;
   border-radius:22px;
@@ -64,9 +78,264 @@ body{
   text-align:left;
   overflow:hidden;
 }
+
 .kind{
   display:inline-block;
   padding:9px 15px;
   border-radius:999px;
   font-size:18px;
-  font
+  font-weight:900;
+  margin-bottom:14px;
+  background:#dfefff;
+  color:#005bbb;
+}
+
+.date{
+  font-size:16px;
+  color:#678095;
+  margin-bottom:14px;
+}
+
+.info-box{
+  background:#f6fbff;
+  border:1px solid #d8eaf8;
+  border-radius:18px;
+  padding:14px;
+  margin-bottom:18px;
+}
+
+.info-label{
+  font-size:15px;
+  font-weight:900;
+  color:#0c5f9c;
+  margin-bottom:8px;
+}
+
+.info-text{
+  font-size:20px;
+  line-height:1.75;
+  color:#17324d;
+  text-align:left;
+  word-break:normal;
+  overflow-wrap:break-word;
+}
+
+.photo{
+  width:100%;
+  display:block;
+  border-radius:20px;
+  margin-bottom:20px;
+  background:#d9e7f2;
+}
+
+.status{
+  display:inline-block;
+  padding:10px 16px;
+  border-radius:999px;
+  font-size:18px;
+  font-weight:900;
+  margin-top:8px;
+}
+
+.red{
+  background:#ffe2e2;
+  color:#c20000;
+}
+
+.yellow{
+  background:#fff3d9;
+  color:#9a6400;
+}
+
+.green{
+  background:#def7df;
+  color:#147a28;
+}
+
+.blue{
+  background:#e1f0ff;
+  color:#005bbb;
+}
+
+.map-btn{
+  display:block;
+  width:100%;
+  text-align:center;
+  text-decoration:none;
+  background:linear-gradient(135deg,#0a84ff,#005bbb);
+  color:#fff;
+  font-size:23px;
+  font-weight:900;
+  padding:17px;
+  border-radius:17px;
+  margin-top:22px;
+}
+
+.loading{
+  text-align:center;
+  font-size:26px;
+  color:#678095;
+  padding:50px 20px;
+}
+
+.error{
+  background:#fff;
+  border-radius:22px;
+  padding:36px 18px;
+  text-align:center;
+  font-size:22px;
+  line-height:1.8;
+  color:#c20000;
+}
+
+.footer{
+  text-align:center;
+  color:#678095;
+  font-size:14px;
+  padding-top:20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<img src="top.jpg" class="top-image">
+
+<div class="title">志木パトロールDX</div>
+
+<div class="desc">
+投稿された地域情報を確認できます。<br>
+道路の穴、街灯切れ、不法投棄などを一覧表示します。
+</div>
+
+<div class="nav">
+  <a href="index.html" class="home-btn">トップへ</a>
+
+  <a
+    href="https://www.appsheet.com/start/76993072-05e5-4df2-85fe-30e175d313bc#table=%E5%BF%97%E6%9C%A8%E3%83%91%E3%83%88%E3%83%AD%E3%83%BC%E3%83%ABDX&page=form&defaults=%5B%5D"
+    target="_blank"
+    class="post-btn">
+    通報する
+  </a>
+</div>
+
+<div id="list">
+  <div class="loading">読み込み中...</div>
+</div>
+
+<div class="footer">
+志木パトロールDX
+</div>
+
+</div>
+
+<script>
+const GAS_URL =
+'https://script.google.com/macros/s/AKfycbys6bU-HEVqwzYuFrckbc1yEY2wv8MU1r0oqW9XvePaBRFK8rBojj3_Dl5P-eahMvkS/exec';
+
+function loadData(){
+  const script = document.createElement('script');
+  script.src = GAS_URL + '?callback=handlePatrolData&_=' + Date.now();
+
+  script.onerror = function(){
+    showError('データを取得できませんでした');
+  };
+
+  document.body.appendChild(script);
+}
+
+window.handlePatrolData = function(res){
+
+  if(!res || !res.ok){
+    showError('データ取得エラー');
+    return;
+  }
+
+  const list = document.getElementById('list');
+
+  if(!res.data || res.data.length === 0){
+    list.innerHTML = '<div class="error">投稿がありません</div>';
+    return;
+  }
+
+  let html = '';
+
+  res.data.forEach(item => {
+
+    const statusClass = getStatusClass(item.status);
+
+    html += `
+      <div class="card">
+
+        <div class="kind">
+          ${escapeHtml(item.kind || '地域情報')}
+        </div>
+
+        <div class="date">
+          ${escapeHtml(item.date || '')}
+        </div>
+
+        <div class="info-box">
+          <div class="info-label">内容</div>
+          <div class="info-text">
+            ${escapeHtml(item.detail || '詳細内容は未入力です。')}
+          </div>
+        </div>
+
+        ${
+          item.photoUrl
+          ? `<img src="${item.photoUrl}" class="photo">`
+          : ''
+        }
+
+        <div class="status ${statusClass}">
+          ${escapeHtml(item.status || '未対応')}
+        </div>
+
+        ${
+          item.location
+          ? `<a
+               href="https://maps.google.com/?q=${encodeURIComponent(item.location)}"
+               target="_blank"
+               class="map-btn">
+               Googleマップを見る
+             </a>`
+          : ''
+        }
+
+      </div>
+    `;
+  });
+
+  list.innerHTML = html;
+};
+
+function getStatusClass(status){
+  const s = String(status || '');
+
+  if(s.includes('済')) return 'green';
+  if(s.includes('中')) return 'yellow';
+  if(s.includes('未')) return 'red';
+
+  return 'blue';
+}
+
+function escapeHtml(str){
+  return String(str || '')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;');
+}
+
+function showError(msg){
+  document.getElementById('list').innerHTML =
+    '<div class="error">' + escapeHtml(msg) + '</div>';
+}
+
+loadData();
+</script>
+
+</body>
+</html>
