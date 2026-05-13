@@ -305,11 +305,6 @@ const GAS_URL =
 
 
 
-const X_TEXT =
-'志木パトロールDX%0A地域の危険箇所を写真と地図で確認できます。';
-
-
-
 function loadData(){
 
 const script =
@@ -486,7 +481,7 @@ Facebook
 <a
 class="share-btn line-btn"
 target="_blank"
-href="https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(SHARE_URL)}">
+href="https://line.me/R/msg/text/?${encodeURIComponent('志木パトロールDX\n' + SHARE_URL)}">
 
 LINE
 
@@ -495,7 +490,7 @@ LINE
 <a
 class="share-btn x-btn"
 target="_blank"
-href="https://twitter.com/intent/tweet?text=${X_TEXT}&url=${encodeURIComponent(SHARE_URL)}">
+href="https://twitter.com/intent/tweet?url=${encodeURIComponent(SHARE_URL)}">
 
 X
 
