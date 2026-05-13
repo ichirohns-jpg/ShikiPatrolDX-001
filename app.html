@@ -487,14 +487,13 @@ LINE
 
 </a>
 
-<a
+<button
 class="share-btn x-btn"
-target="_blank"
-href="https://twitter.com/intent/tweet?url=${encodeURIComponent(SHARE_URL)}">
+onclick="copyShare('${encodeURIComponent(SHARE_URL)}')">
 
-X
+X用URLコピー
 
-</a>
+</button>
 
 </div>
 
@@ -527,7 +526,7 @@ navigator.clipboard.writeText(text)
 
 .then(function(){
 
-alert('投稿文とURLをコピーしました');
+alert('コピーしました');
 
 })
 
