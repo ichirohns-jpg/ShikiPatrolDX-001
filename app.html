@@ -77,6 +77,9 @@ body{margin:0;background:#eef5fb;font-family:"Hiragino Sans","Yu Gothic","Meiryo
 const GAS_URL =
 'https://script.google.com/macros/s/AKfycbys6bU-HEVqwzYuFrckbc1yEY2wv8MU1r0oqW9XvePaBRFK8rBojj3_Dl5P-eahMvkS/exec';
 
+const BASE_URL =
+'https://ichirohns-jpg.github.io/ShikiPatrolDX-001/';
+
 function loadData(){
   const script = document.createElement('script');
   script.src = GAS_URL + '?callback=handlePatrolData&_=' + Date.now();
@@ -123,8 +126,12 @@ window.handlePatrolData = function(res){
 
   data.forEach(function(item){
     const no = String(item._index + 1).padStart(3,'0');
+
     const shareUrl =
-      'https://ichirohns-jpg.github.io/ShikiPatrolDX-001/share-' + no + '.html';
+      BASE_URL + 'share-' + no + '.html';
+
+    const xShareUrl =
+      BASE_URL + 'share.html?id=' + String(item._index + 1);
 
     const statusClass = getStatusClass(item.status);
 
@@ -195,7 +202,7 @@ window.handlePatrolData = function(res){
             <a
               class="share-btn x-btn"
               target="_blank"
-              href="https://twitter.com/intent/tweet?text=${encodeURIComponent(xText)}&url=${encodeURIComponent(shareUrl)}">
+              href="https://twitter.com/intent/tweet?text=${encodeURIComponent(xText)}&url=${encodeURIComponent(xShareUrl)}">
               X
             </a>
 
