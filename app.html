@@ -3,26 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>志木パトロールDX</title>
 
 <style>
 *{box-sizing:border-box}
-
 body{
   margin:0;
   background:#eef5fb;
   font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
   color:#17324d;
 }
-
 .wrap{
   width:100%;
   max-width:760px;
   margin:0 auto;
   padding:14px 10px 80px;
 }
-
 .top-image{
   width:100%;
   border-radius:22px;
@@ -30,7 +26,6 @@ body{
   margin-bottom:22px;
   box-shadow:0 6px 20px rgba(0,0,0,.15);
 }
-
 .title{
   font-size:34px;
   font-weight:900;
@@ -38,19 +33,16 @@ body{
   margin-bottom:14px;
   color:#0c3c66;
 }
-
 .desc{
   font-size:18px;
   line-height:1.7;
   margin-bottom:22px;
 }
-
 .nav{
   display:flex;
   gap:10px;
   margin-bottom:22px;
 }
-
 .nav a{
   flex:1;
   text-align:center;
@@ -61,10 +53,8 @@ body{
   border-radius:17px;
   color:#fff;
 }
-
 .home-btn{background:#617890}
 .post-btn{background:linear-gradient(135deg,#1d93ff,#0068d9)}
-
 .card{
   background:#fff;
   border-radius:22px;
@@ -74,7 +64,6 @@ body{
   text-align:left;
   overflow:hidden;
 }
-
 .kind{
   display:inline-block;
   padding:9px 15px;
@@ -85,13 +74,11 @@ body{
   background:#dfefff;
   color:#005bbb;
 }
-
 .date{
   font-size:16px;
   color:#678095;
   margin-bottom:14px;
 }
-
 .info-box{
   background:#f6fbff;
   border:1px solid #d8eaf8;
@@ -99,14 +86,12 @@ body{
   padding:14px;
   margin-bottom:18px;
 }
-
 .info-label{
   font-size:15px;
   font-weight:900;
   color:#0c5f9c;
   margin-bottom:8px;
 }
-
 .info-text{
   font-size:20px;
   line-height:1.75;
@@ -115,7 +100,6 @@ body{
   word-break:normal;
   overflow-wrap:break-word;
 }
-
 .photo{
   width:100%;
   display:block;
@@ -123,7 +107,6 @@ body{
   margin-bottom:20px;
   background:#d9e7f2;
 }
-
 .status{
   display:inline-block;
   padding:10px 16px;
@@ -132,12 +115,10 @@ body{
   font-weight:900;
   margin-top:8px;
 }
-
 .red{background:#ffe2e2;color:#c20000}
 .yellow{background:#fff3d9;color:#9a6400}
 .green{background:#def7df;color:#147a28}
 .blue{background:#e1f0ff;color:#005bbb}
-
 .map-btn{
   display:block;
   width:100%;
@@ -151,14 +132,43 @@ body{
   border-radius:17px;
   margin-top:22px;
 }
-
+.share-box{
+  margin-top:18px;
+  padding-top:16px;
+  border-top:1px solid #e0edf7;
+}
+.share-title{
+  font-size:15px;
+  font-weight:900;
+  color:#45657d;
+  margin-bottom:10px;
+}
+.share-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.share-btn{
+  display:block;
+  border:none;
+  text-align:center;
+  text-decoration:none;
+  color:#fff;
+  font-size:16px;
+  font-weight:900;
+  padding:13px 8px;
+  border-radius:14px;
+}
+.copy-btn{background:#516a80}
+.fb-btn{background:#1877f2}
+.line-btn{background:#06c755}
+.x-btn{background:#111}
 .loading{
   text-align:center;
   font-size:26px;
   color:#678095;
   padding:50px 20px;
 }
-
 .error{
   background:#fff;
   border-radius:22px;
@@ -168,7 +178,6 @@ body{
   line-height:1.8;
   color:#c20000;
 }
-
 .footer{
   text-align:center;
   color:#678095;
@@ -179,7 +188,6 @@ body{
 </head>
 
 <body>
-
 <div class="wrap">
 
 <img src="top.jpg" class="top-image">
@@ -213,6 +221,8 @@ body{
 const GAS_URL =
 'https://script.google.com/macros/s/AKfycbys6bU-HEVqwzYuFrckbc1yEY2wv8MU1r0oqW9XvePaBRFK8rBojj3_Dl5P-eahMvkS/exec';
 
+const BASE_URL = 'https://ichirohns-jpg.github.io/ShikiPatrolDX-001/app.html';
+
 function loadData(){
   const script = document.createElement('script');
   script.src = GAS_URL + '?callback=handlePatrolData&_=' + Date.now();
@@ -238,11 +248,29 @@ window.handlePatrolData = function(res){
     return;
   }
 
+  const params = new URLSearchParams(location.search);
+  const targetId = params.get('id');
+
+  let data = res.data.map((item,index)=>{
+    item._id = index + 1;
+    return item;
+  });
+
+  if(targetId){
+    data = data.filter(item => String(item._id) === String(targetId));
+  }
+
   let html = '';
 
-  res.data.forEach(item => {
+  data.forEach(item => {
 
     const statusClass = getStatusClass(item.status);
+    const articleUrl = BASE_URL + '?id=' + item._id;
+    const shareText =
+      '志木パトロールDX\n' +
+      '【' + (item.kind || '地域情報') + '】\n' +
+      (item.detail || '') + '\n' +
+      articleUrl;
 
     html += `
       <div class="card">
@@ -283,12 +311,57 @@ window.handlePatrolData = function(res){
           : ''
         }
 
+        <div class="share-box">
+          <div class="share-title">この記事を共有</div>
+          <div class="share-grid">
+            <button class="share-btn copy-btn" onclick="copyShareText('${encodeURIComponent(shareText)}')">
+              URLコピー
+            </button>
+
+            <a class="share-btn fb-btn"
+               target="_blank"
+               href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(articleUrl)}">
+              Facebook
+            </a>
+
+            <a class="share-btn line-btn"
+               target="_blank"
+               href="https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(articleUrl)}">
+              LINE
+            </a>
+
+            <a class="share-btn x-btn"
+               target="_blank"
+               href="https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}">
+              X
+            </a>
+          </div>
+        </div>
+
       </div>
     `;
   });
 
+  if(!html){
+    html = '<div class="error">指定された投稿が見つかりません。</div>';
+  }
+
   list.innerHTML = html;
 };
+
+function copyShareText(encodedText){
+  const text = decodeURIComponent(encodedText);
+
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(text).then(function(){
+      alert('投稿文とURLをコピーしました');
+    }).catch(function(){
+      prompt('コピーしてください', text);
+    });
+  }else{
+    prompt('コピーしてください', text);
+  }
+}
 
 function getStatusClass(status){
   const s = String(status || '');
@@ -304,7 +377,9 @@ function escapeHtml(str){
   return String(str || '')
     .replace(/&/g,'&amp;')
     .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;');
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
 }
 
 function showError(msg){
