@@ -56,17 +56,17 @@ body{margin:0;background:#eef5fb;font-family:"Hiragino Sans","Yu Gothic","Meiryo
 </div>
 
 <div class="nav">
-<a href="index.html" class="home-btn">トップへ</a>
-<a
-href="https://www.appsheet.com/start/76993072-05e5-4df2-85fe-30e175d313bc#table=%E5%BF%97%E6%9C%A8%E3%83%91%E3%83%88%E3%83%AD%E3%83%BC%E3%83%ABDX&page=form&defaults=%5B%5D"
-target="_blank"
-class="post-btn">
-通報する
-</a>
+  <a href="index.html" class="home-btn">トップへ</a>
+  <a
+    href="https://www.appsheet.com/start/76993072-05e5-4df2-85fe-30e175d313bc#table=%E5%BF%97%E6%9C%A8%E3%83%91%E3%83%88%E3%83%AD%E3%83%BC%E3%83%ABDX&page=form&defaults=%5B%5D"
+    target="_blank"
+    class="post-btn">
+    通報する
+  </a>
 </div>
 
 <div id="list">
-<div class="loading">読み込み中...</div>
+  <div class="loading">読み込み中...</div>
 </div>
 
 <div class="footer">志木パトロールDX</div>
@@ -74,52 +74,27 @@ class="post-btn">
 </div>
 
 <script>
-const SHEET_ID = '1393zzt2GgqS5v0Hsdtu-3w0ntM3ff2KG0kOOPBaxHk4';
-const SHEET_NAME = '志木パトロールDX';
-const BASE_URL = 'https://ichirohns-jpg.github.io/ShikiPatrolDX-001/';
+const GAS_URL =
+'https://script.google.com/macros/s/AKfycbys6bU-HEVqwzYuFrckbc1yEY2wv8MU1r0oqW9XvePaBRFK8rBojj3_Dl5P-eahMvkS/exec';
 
 function loadData(){
   const script = document.createElement('script');
-  script.src =
-    'https://docs.google.com/spreadsheets/d/' +
-    SHEET_ID +
-    '/gviz/tq?tqx=out:json;responseHandler=handlePatrolData&sheet=' +
-    encodeURIComponent(SHEET_NAME) +
-    '&_=' +
-    Date.now();
-
+  script.src = GAS_URL + '?callback=handlePatrolData&_=' + Date.now();
   script.onerror = function(){
     showError('データを取得できませんでした');
   };
-
   document.body.appendChild(script);
 }
 
-window.handlePatrolData = function(json){
-  const list = document.getElementById('list');
-
-  if(!json || !json.table || !json.table.rows){
+window.handlePatrolData = function(res){
+  if(!res || !res.ok){
     showError('データ取得エラー');
     return;
   }
 
-  let data = json.table.rows.map(function(row,index){
-    const c = row.c || [];
+  const list = document.getElementById('list');
 
-    return {
-      index:index,
-      date:getCell(c,0),
-      kind:getCell(c,1),
-      detail:getCell(c,2),
-      photoUrl:normalizeImageUrl(getCell(c,3)),
-      location:getCell(c,4),
-      status:getCell(c,5)
-    };
-  }).filter(function(item){
-    return item.date || item.kind || item.detail || item.photoUrl || item.location || item.status;
-  });
-
-  if(data.length === 0){
+  if(!res.data || res.data.length === 0){
     list.innerHTML = '<div class="error">投稿がありません</div>';
     return;
   }
@@ -127,10 +102,15 @@ window.handlePatrolData = function(json){
   const params = new URLSearchParams(location.search);
   const id = params.get('id');
 
+  let data = res.data.map(function(item,index){
+    item._index = index;
+    return item;
+  });
+
   if(id){
     const targetIndex = parseInt(id,10) - 1;
     data = data.filter(function(item){
-      return item.index === targetIndex;
+      return item._index === targetIndex;
     });
 
     if(data.length === 0){
@@ -142,8 +122,10 @@ window.handlePatrolData = function(json){
   let html = '';
 
   data.forEach(function(item){
-    const no = String(item.index + 1).padStart(3,'0');
-    const shareUrl = BASE_URL + 'share-' + no + '.html';
+    const no = String(item._index + 1).padStart(3,'0');
+    const shareUrl =
+      'https://ichirohns-jpg.github.io/ShikiPatrolDX-001/share-' + no + '.html';
+
     const statusClass = getStatusClass(item.status);
 
     const copyText =
@@ -226,30 +208,6 @@ window.handlePatrolData = function(json){
 
   list.innerHTML = html;
 };
-
-function getCell(c,index){
-  if(!c[index]) return '';
-  if(c[index].f) return String(c[index].f).trim();
-  if(c[index].v === null || c[index].v === undefined) return '';
-  return String(c[index].v).trim();
-}
-
-function normalizeImageUrl(url){
-  const raw = String(url || '').trim();
-  if(!raw) return '';
-
-  const driveFileMatch = raw.match(/\/file\/d\/([^/]+)/);
-  if(driveFileMatch && driveFileMatch[1]){
-    return 'https://drive.google.com/thumbnail?id=' + driveFileMatch[1] + '&sz=w1200';
-  }
-
-  const driveIdMatch = raw.match(/[?&]id=([^&]+)/);
-  if(raw.includes('drive.google.com') && driveIdMatch && driveIdMatch[1]){
-    return 'https://drive.google.com/thumbnail?id=' + driveIdMatch[1] + '&sz=w1200';
-  }
-
-  return raw;
-}
 
 function copyShare(encodedText){
   const text = decodeURIComponent(encodedText);
