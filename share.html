@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+const params = new URLSearchParams(location.search);
+
+const id = params.get('id') || '1';
+
+const title = '志木パトロールDX';
+const desc = '地域の危険箇所を写真と地図で確認できます。';
+
+const image =
+  'https://ichirohns-jpg.github.io/ShikiPatrolDX-001/ogp-00' + id + '.jpg';
+
+const page =
+  'https://ichirohns-jpg.github.io/ShikiPatrolDX-001/app.html?id=' + id;
+
+document.write(`
+<title>${title}</title>
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="${title}">
+<meta property="og:description" content="${desc}">
+<meta property="og:image" content="${image}">
+<meta property="og:url" content="${location.href}">
+<meta property="og:site_name" content="志木パトロールDX">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${title}">
+<meta name="twitter:description" content="${desc}">
+<meta name="twitter:image" content="${image}">
+
+<meta http-equiv="refresh" content="1;url=${page}">
+`);
+</script>
+
+<style>
+body{
+margin:0;
+font-family:sans-serif;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+background:#eef5fb;
+color:#17324d;
+}
+</style>
+
+</head>
+
+<body>
+
+<div>
+志木パトロールDXを開いています...
+</div>
+
+</body>
+</html>
