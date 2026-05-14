@@ -9,243 +9,223 @@
 *{box-sizing:border-box}
 
 body{
-margin:0;
-background:#eef5fb;
-font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-color:#17324d;
+  margin:0;
+  background:#eef5fb;
+  font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  color:#17324d;
 }
 
 .wrap{
-width:100%;
-max-width:760px;
-margin:0 auto;
-padding:14px 10px 80px;
+  width:100%;
+  max-width:760px;
+  margin:0 auto;
+  padding:14px 10px 80px;
 }
 
 .top-image{
-width:100%;
-border-radius:22px;
-display:block;
-margin-bottom:22px;
-box-shadow:0 6px 20px rgba(0,0,0,.15);
+  width:100%;
+  border-radius:22px;
+  display:block;
+  margin-bottom:22px;
+  box-shadow:0 6px 20px rgba(0,0,0,.15);
 }
 
 .title{
-font-size:34px;
-font-weight:900;
-line-height:1.3;
-margin-bottom:14px;
-color:#0c3c66;
+  font-size:34px;
+  font-weight:900;
+  line-height:1.3;
+  margin-bottom:14px;
+  color:#0c3c66;
 }
 
 .desc{
-font-size:18px;
-line-height:1.7;
-margin-bottom:22px;
+  font-size:18px;
+  line-height:1.7;
+  margin-bottom:22px;
 }
 
 .nav{
-display:flex;
-gap:10px;
-margin-bottom:22px;
+  display:flex;
+  gap:10px;
+  margin-bottom:22px;
 }
 
 .nav a{
-flex:1;
-text-align:center;
-text-decoration:none;
-font-size:21px;
-font-weight:900;
-padding:17px 8px;
-border-radius:17px;
-color:#fff;
+  flex:1;
+  text-align:center;
+  text-decoration:none;
+  font-size:21px;
+  font-weight:900;
+  padding:17px 8px;
+  border-radius:17px;
+  color:#fff;
 }
 
-.home-btn{
-background:#617890;
-}
-
-.post-btn{
-background:linear-gradient(135deg,#1d93ff,#0068d9);
-}
+.home-btn{background:#617890}
+.post-btn{background:linear-gradient(135deg,#1d93ff,#0068d9)}
 
 .archive-toggle{
-display:block;
-width:100%;
-margin:0 0 22px;
-padding:18px;
-border:none;
-border-radius:18px;
-background:#0c5f9c;
-color:#fff;
-font-size:22px;
-font-weight:900;
+  display:none;
+  width:100%;
+  margin:0 0 22px;
+  padding:18px;
+  border:none;
+  border-radius:18px;
+  background:#0c5f9c;
+  color:#fff;
+  font-size:22px;
+  font-weight:900;
 }
 
 .card{
-background:#fff;
-border-radius:22px;
-padding:16px;
-margin-bottom:22px;
-box-shadow:0 6px 18px rgba(0,0,0,.12);
-overflow:hidden;
+  background:#fff;
+  border-radius:22px;
+  padding:16px;
+  margin-bottom:22px;
+  box-shadow:0 6px 18px rgba(0,0,0,.12);
+  overflow:hidden;
 }
 
 .kind{
-display:inline-block;
-padding:9px 15px;
-border-radius:999px;
-font-size:18px;
-font-weight:900;
-margin-bottom:14px;
-background:#dfefff;
-color:#005bbb;
+  display:inline-block;
+  padding:9px 15px;
+  border-radius:999px;
+  font-size:18px;
+  font-weight:900;
+  margin-bottom:14px;
+  background:#dfefff;
+  color:#005bbb;
 }
 
 .date{
-font-size:16px;
-color:#678095;
-margin-bottom:14px;
+  font-size:16px;
+  color:#678095;
+  margin-bottom:14px;
 }
 
 .info-box{
-background:#f6fbff;
-border:1px solid #d8eaf8;
-border-radius:18px;
-padding:14px;
-margin-bottom:18px;
+  background:#f6fbff;
+  border:1px solid #d8eaf8;
+  border-radius:18px;
+  padding:14px;
+  margin-bottom:18px;
 }
 
 .info-label{
-font-size:15px;
-font-weight:900;
-color:#0c5f9c;
-margin-bottom:8px;
+  font-size:15px;
+  font-weight:900;
+  color:#0c5f9c;
+  margin-bottom:8px;
 }
 
 .info-text{
-font-size:20px;
-line-height:1.75;
+  font-size:20px;
+  line-height:1.75;
 }
 
 .photo{
-width:100%;
-display:block;
-border-radius:20px;
-margin-bottom:20px;
+  width:100%;
+  display:block;
+  border-radius:20px;
+  margin-bottom:20px;
 }
 
 .status{
-display:inline-block;
-padding:10px 16px;
-border-radius:999px;
-font-size:18px;
-font-weight:900;
-margin-top:8px;
+  display:inline-block;
+  padding:10px 16px;
+  border-radius:999px;
+  font-size:18px;
+  font-weight:900;
+  margin-top:8px;
 }
 
-.red{
-background:#ffe2e2;
-color:#c20000;
-}
-
-.yellow{
-background:#fff3d9;
-color:#9a6400;
-}
-
-.green{
-background:#def7df;
-color:#147a28;
-}
-
-.blue{
-background:#e1f0ff;
-color:#005bbb;
-}
+.red{background:#ffe2e2;color:#c20000}
+.yellow{background:#fff3d9;color:#9a6400}
+.green{background:#def7df;color:#147a28}
+.blue{background:#e1f0ff;color:#005bbb}
 
 .admin-box,
 .improve-box,
 .after-box{
-background:#fff7e8;
-border:4px solid #ead08a;
-border-radius:24px;
-padding:18px;
-margin-top:20px;
+  background:#fff7e8;
+  border:4px solid #ead08a;
+  border-radius:24px;
+  padding:18px;
+  margin-top:20px;
 }
 
 .admin-title,
 .improve-title,
 .after-title{
-font-size:28px;
-font-weight:900;
-color:#9a6500;
-margin-bottom:14px;
+  font-size:28px;
+  font-weight:900;
+  color:#9a6500;
+  margin-bottom:14px;
 }
 
 .admin-text,
 .improve-text{
-font-size:22px;
-line-height:1.8;
+  font-size:22px;
+  line-height:1.8;
 }
 
 .after-photo{
-width:100%;
-border-radius:20px;
+  width:100%;
+  border-radius:20px;
 }
 
 .response-date{
-margin-top:18px;
-font-size:20px;
-font-weight:900;
-color:#567;
+  margin-top:18px;
+  font-size:20px;
+  font-weight:900;
+  color:#567;
 }
 
 .map-btn{
-display:block;
-width:100%;
-text-align:center;
-text-decoration:none;
-background:linear-gradient(135deg,#0a84ff,#005bbb);
-color:#fff;
-font-size:23px;
-font-weight:900;
-padding:17px;
-border-radius:17px;
-margin-top:22px;
+  display:block;
+  width:100%;
+  text-align:center;
+  text-decoration:none;
+  background:linear-gradient(135deg,#0a84ff,#005bbb);
+  color:#fff;
+  font-size:23px;
+  font-weight:900;
+  padding:17px;
+  border-radius:17px;
+  margin-top:22px;
 }
 
 .share-box{
-margin-top:24px;
-background:#f5faff;
-border:2px solid #d4e7f8;
-border-radius:22px;
-padding:18px;
+  margin-top:24px;
+  background:#f5faff;
+  border:2px solid #d4e7f8;
+  border-radius:22px;
+  padding:18px;
 }
 
 .share-title{
-font-size:22px;
-font-weight:900;
-color:#0c5f9c;
-margin-bottom:14px;
+  font-size:22px;
+  font-weight:900;
+  color:#0c5f9c;
+  margin-bottom:14px;
 }
 
 .share-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
 }
 
 .share-btn{
-display:block;
-text-align:center;
-text-decoration:none;
-color:#fff;
-font-size:20px;
-font-weight:900;
-padding:16px 10px;
-border-radius:18px;
-border:none;
+  display:block;
+  text-align:center;
+  text-decoration:none;
+  color:#fff;
+  font-size:20px;
+  font-weight:900;
+  padding:16px 10px;
+  border-radius:18px;
+  border:none;
 }
 
 .fb-btn{background:#1877f2}
@@ -254,49 +234,45 @@ border:none;
 .copy-btn{background:#60788d}
 
 .bottom-nav{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-margin-top:26px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:26px;
 }
 
 .bottom-btn{
-display:block;
-text-align:center;
-text-decoration:none;
-color:#fff;
-font-size:22px;
-font-weight:900;
-padding:18px 10px;
-border-radius:18px;
+  display:block;
+  text-align:center;
+  text-decoration:none;
+  color:#fff;
+  font-size:22px;
+  font-weight:900;
+  padding:18px 10px;
+  border-radius:18px;
 }
 
 .loading{
-text-align:center;
-font-size:26px;
-color:#678095;
-padding:50px 20px;
+  text-align:center;
+  font-size:26px;
+  color:#678095;
+  padding:50px 20px;
 }
 
 .error{
-background:#fff;
-border-radius:22px;
-padding:36px 18px;
-text-align:center;
-font-size:22px;
-line-height:1.8;
-color:#c20000;
-}
-
-.archive{
-display:none;
+  background:#fff;
+  border-radius:22px;
+  padding:36px 18px;
+  text-align:center;
+  font-size:22px;
+  line-height:1.8;
+  color:#c20000;
 }
 
 .footer{
-text-align:center;
-color:#678095;
-font-size:14px;
-padding-top:20px;
+  text-align:center;
+  color:#678095;
+  font-size:14px;
+  padding-top:20px;
 }
 </style>
 </head>
@@ -307,360 +283,271 @@ padding-top:20px;
 
 <img src="top.jpg" class="top-image">
 
-<div class="title">
-志木パトロールDX
-</div>
+<div class="title">志木パトロールDX</div>
 
 <div class="desc">
 地域の異常情報を公開しています。
 </div>
 
 <div class="nav">
-
-<a href="index.html" class="home-btn">
-トップへ
-</a>
-
-<a href="improved.html" class="post-btn">
-改善一覧
-</a>
-
+  <a href="index.html" class="home-btn">トップへ</a>
+  <a href="improved.html" class="post-btn">改善一覧</a>
 </div>
 
-<button class="archive-toggle" onclick="toggleArchive()">
+<button id="archiveButton" class="archive-toggle" onclick="toggleArchive()">
 アーカイブを見る
 </button>
 
 <div id="list">
-<div class="loading">読み込み中...</div>
+  <div class="loading">読み込み中...</div>
 </div>
 
-<div class="footer">
-志木パトロールDX
-</div>
+<div class="footer">志木パトロールDX</div>
 
 </div>
 
 <script>
-
 const GAS_URL =
 'https://script.google.com/macros/s/AKfycbxv21OMo_WzM54usxXYKgWfbSx-IeRbpjNvn_CIDC2Jk6-qAsyCd72SRkNTB1NjFguL/exec';
 
-const params =
-new URLSearchParams(location.search);
-
-const targetId =
-params.get('id');
+const params = new URLSearchParams(location.search);
+const targetId = params.get('id');
+let archiveOpen = false;
 
 function loadData(){
+  const script = document.createElement('script');
+  script.src = GAS_URL + '?callback=handlePatrolData&_=' + Date.now();
 
-const script =
-document.createElement('script');
+  script.onerror = function(){
+    showError('データを取得できませんでした');
+  };
 
-script.src =
-GAS_URL +
-'?callback=handlePatrolData&_=' +
-Date.now();
-
-document.body.appendChild(script);
+  document.body.appendChild(script);
 }
 
 window.handlePatrolData = function(res){
 
-if(!res || !res.ok){
-
-showError('データ取得エラー');
-
-return;
-}
-
-let data =
-res.data || [];
-
-if(targetId){
-
-data =
-data.filter(function(item){
-
-return String(item.id) === String(targetId);
-
-});
-
-}
-
-if(data.length === 0){
-
-showError('記事がありません');
-
-return;
-}
-
-let html = '';
-
-data.forEach(function(item,index){
-
-const isArchive =
-!targetId && index >= 5;
-
-const archiveClass =
-isArchive ? 'archive' : '';
-
-const shareUrl =
-'https://ichirohns-jpg.github.io/ShikiPatrolDX-001/app.html?id=' +
-item.id;
-
-const lineText =
-'改善しました｜志木パトロールDX\n\n' +
-
-(item.kind || '') + '\n\n' +
-
-(item.detail || '') + '\n\n' +
-
-(item.improvement
-? '改善内容：' + item.improvement + '\n\n'
-: '') +
-
-'詳しくはこちら\n' +
-shareUrl;
-
-html += `
-
-<div class="card ${archiveClass}">
-
-<div class="kind">
-${escapeHtml(item.kind || '')}
-</div>
-
-<div class="date">
-${escapeHtml(item.date || '')}
-</div>
-
-<div class="info-box">
-
-<div class="info-label">
-内容
-</div>
-
-<div class="info-text">
-${escapeHtml(item.detail || '')}
-</div>
-
-</div>
-
-${
-item.photoUrl
-? `
-<img
-src="${escapeAttr(item.photoUrl)}"
-class="photo">
-`
-: ''
-}
-
-<div class="status ${getStatusClass(item.status)}">
-${escapeHtml(item.status || '')}
-</div>
-
-${item.adminMessage ? `
-
-<div class="admin-box">
-
-<div class="admin-title">
-管理者からのメッセージ
-</div>
-
-<div class="admin-text">
-${escapeHtml(item.adminMessage)}
-</div>
-
-</div>
-
-` : ''}
-
-${item.improvement ? `
-
-<div class="improve-box">
-
-<div class="improve-title">
-改善内容
-</div>
-
-<div class="improve-text">
-${escapeHtml(item.improvement)}
-</div>
-
-</div>
-
-` : ''}
-
-${item.afterPhotoUrl ? `
-
-<div class="after-box">
-
-<div class="after-title">
-改善後
-</div>
-
-<img
-src="${escapeAttr(item.afterPhotoUrl)}"
-class="after-photo">
-
-</div>
-
-` : ''}
-
-${item.responseDate ? `
-
-<div class="response-date">
-対応日：
-${escapeHtml(item.responseDate)}
-</div>
-
-` : ''}
-
-${
-item.location
-? `
-<a
-href="https://maps.google.com/?q=${encodeURIComponent(item.location)}"
-target="_blank"
-class="map-btn">
-Googleマップを見る
-</a>
-`
-: ''
-}
-
-<div class="share-box">
-
-<div class="share-title">
-この記事を共有
-</div>
-
-<div class="share-grid">
-
-<a
-class="share-btn fb-btn"
-target="_blank"
-href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}">
-Facebook
-</a>
-
-<a
-class="share-btn line-btn"
-target="_blank"
-href="https://line.me/R/msg/text/?${encodeURIComponent(lineText)}">
-LINE
-</a>
-
-<a
-class="share-btn x-btn"
-target="_blank"
-href="https://twitter.com/intent/tweet?text=${encodeURIComponent('志木パトロールDX')}&url=${encodeURIComponent(shareUrl)}">
-X
-</a>
-
-<button
-class="share-btn copy-btn"
-onclick="copyText('${encodeURIComponent(lineText)}')">
-文章コピー
-</button>
-
-</div>
-
-</div>
-
-<div class="bottom-nav">
-
-<a
-href="app.html"
-class="bottom-btn home-btn">
-一覧へ戻る
-</a>
-
-<a
-href="https://www.appsheet.com/start/76993072-05e5-4df2-85fe-30e175d313bc#table=%E5%BF%97%E6%9C%A8%E3%83%91%E3%83%88%E3%83%AD%E3%83%BC%E3%83%ABDX&page=form"
-target="_blank"
-class="bottom-btn post-btn">
-通報する
-</a>
-
-</div>
-
-</div>
-
-`;
-
-});
-
-document.getElementById('list').innerHTML =
-html;
-
+  if(!res || !res.ok){
+    showError('データ取得エラー');
+    return;
+  }
+
+  let data = res.data || [];
+
+  if(targetId){
+    data = data.filter(function(item){
+      return String(item.id) === String(targetId);
+    });
+  }
+
+  if(data.length === 0){
+    showError('記事がありません');
+    return;
+  }
+
+  const archiveButton = document.getElementById('archiveButton');
+
+  if(!targetId && data.length > 5){
+    archiveButton.style.display = 'block';
+  }else{
+    archiveButton.style.display = 'none';
+  }
+
+  let html = '';
+
+  data.forEach(function(item,index){
+
+    const archiveAttr =
+      (!targetId && index >= 5)
+      ? ' data-archive="1" style="display:none;"'
+      : '';
+
+    const shareUrl =
+      'https://ichirohns-jpg.github.io/ShikiPatrolDX-001/app.html?id=' +
+      item.id;
+
+    const lineText =
+      '改善しました｜志木パトロールDX\n\n' +
+      (item.kind || '') + '\n\n' +
+      (item.detail || '') + '\n\n' +
+      (item.improvement ? '改善内容：' + item.improvement + '\n\n' : '') +
+      '詳しくはこちら\n' +
+      shareUrl;
+
+    html += `
+      <div class="card"${archiveAttr}>
+
+        <div class="kind">${escapeHtml(item.kind || '')}</div>
+
+        <div class="date">${escapeHtml(item.date || '')}</div>
+
+        <div class="info-box">
+          <div class="info-label">内容</div>
+          <div class="info-text">${escapeHtml(item.detail || '')}</div>
+        </div>
+
+        ${
+          item.photoUrl
+          ? `<img src="${escapeAttr(item.photoUrl)}" class="photo">`
+          : ''
+        }
+
+        <div class="status ${getStatusClass(item.status)}">
+          ${escapeHtml(item.status || '')}
+        </div>
+
+        ${item.adminMessage ? `
+          <div class="admin-box">
+            <div class="admin-title">管理者からのメッセージ</div>
+            <div class="admin-text">${escapeHtml(item.adminMessage)}</div>
+          </div>
+        ` : ''}
+
+        ${item.improvement ? `
+          <div class="improve-box">
+            <div class="improve-title">改善内容</div>
+            <div class="improve-text">${escapeHtml(item.improvement)}</div>
+          </div>
+        ` : ''}
+
+        ${item.afterPhotoUrl ? `
+          <div class="after-box">
+            <div class="after-title">改善後</div>
+            <img src="${escapeAttr(item.afterPhotoUrl)}" class="after-photo">
+          </div>
+        ` : ''}
+
+        ${item.responseDate ? `
+          <div class="response-date">
+            対応日：${escapeHtml(item.responseDate)}
+          </div>
+        ` : ''}
+
+        ${
+          item.location
+          ? `
+            <a
+              href="https://maps.google.com/?q=${encodeURIComponent(item.location)}"
+              target="_blank"
+              class="map-btn">
+              Googleマップを見る
+            </a>
+          `
+          : ''
+        }
+
+        <div class="share-box">
+          <div class="share-title">この記事を共有</div>
+
+          <div class="share-grid">
+            <a
+              class="share-btn fb-btn"
+              target="_blank"
+              href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}">
+              Facebook
+            </a>
+
+            <a
+              class="share-btn line-btn"
+              target="_blank"
+              href="https://line.me/R/msg/text/?${encodeURIComponent(lineText)}">
+              LINE
+            </a>
+
+            <a
+              class="share-btn x-btn"
+              target="_blank"
+              href="https://twitter.com/intent/tweet?text=${encodeURIComponent('志木パトロールDX')}&url=${encodeURIComponent(shareUrl)}">
+              X
+            </a>
+
+            <button
+              class="share-btn copy-btn"
+              onclick="copyText('${encodeURIComponent(lineText)}')">
+              文章コピー
+            </button>
+          </div>
+        </div>
+
+        <div class="bottom-nav">
+          <a href="app.html" class="bottom-btn home-btn">一覧へ戻る</a>
+
+          <a
+            href="https://www.appsheet.com/start/76993072-05e5-4df2-85fe-30e175d313bc#table=%E5%BF%97%E6%9C%A8%E3%83%91%E3%83%88%E3%83%AD%E3%83%BC%E3%83%ABDX&page=form"
+            target="_blank"
+            class="bottom-btn post-btn">
+            通報する
+          </a>
+        </div>
+
+      </div>
+    `;
+  });
+
+  document.getElementById('list').innerHTML = html;
 };
 
 function toggleArchive(){
 
-const items =
-document.querySelectorAll('.archive');
+  const items = document.querySelectorAll('[data-archive="1"]');
+  const button = document.getElementById('archiveButton');
 
-items.forEach(function(el){
+  archiveOpen = !archiveOpen;
 
-if(el.style.display === 'block'){
-el.style.display = 'none';
-}else{
-el.style.display = 'block';
-}
+  items.forEach(function(el){
+    el.style.display = archiveOpen ? 'block' : 'none';
+  });
 
-});
-
+  button.textContent = archiveOpen ? 'アーカイブを閉じる' : 'アーカイブを見る';
 }
 
 function copyText(encodedText){
 
-const text =
-decodeURIComponent(encodedText);
+  const text = decodeURIComponent(encodedText);
 
-navigator.clipboard.writeText(text);
-
-alert('文章をコピーしました');
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(text).then(function(){
+      alert('文章をコピーしました');
+    });
+  }else{
+    prompt('コピーしてください', text);
+  }
 }
 
 function getStatusClass(status){
 
-const s =
-String(status || '');
+  const s = String(status || '');
 
-if(s.includes('済')) return 'green';
-if(s.includes('中')) return 'yellow';
-if(s.includes('未')) return 'red';
+  if(s.includes('済')) return 'green';
+  if(s.includes('中')) return 'yellow';
+  if(s.includes('未')) return 'red';
 
-return 'blue';
+  return 'blue';
 }
 
 function escapeHtml(str){
 
-return String(str || '')
-.replace(/&/g,'&amp;')
-.replace(/</g,'&lt;')
-.replace(/>/g,'&gt;');
+  return String(str || '')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;');
 }
 
 function escapeAttr(str){
 
-return escapeHtml(str)
-.replace(/"/g,'&quot;');
+  return escapeHtml(str)
+    .replace(/"/g,'&quot;');
 }
 
 function showError(msg){
 
-document.getElementById('list').innerHTML =
-'<div class="error">' +
-escapeHtml(msg) +
-'</div>';
+  document.getElementById('list').innerHTML =
+    '<div class="error">' +
+    escapeHtml(msg) +
+    '</div>';
 }
 
 loadData();
-
 </script>
 
 </body>
