@@ -29,6 +29,28 @@ body{margin:0;background:#eef5fb;font-family:"Hiragino Sans","Yu Gothic","Meiryo
 .green{background:#def7df;color:#147a28}
 .blue{background:#e1f0ff;color:#005bbb}
 .map-btn{display:block;width:100%;text-align:center;text-decoration:none;background:linear-gradient(135deg,#0a84ff,#005bbb);color:#fff;font-size:23px;font-weight:900;padding:17px;border-radius:17px;margin-top:22px}
+
+.admin-message{
+  background:#fff8e8;
+  border:2px solid #f0d28a;
+  border-radius:18px;
+  padding:16px;
+  margin-top:18px;
+}
+
+.admin-title{
+  font-size:18px;
+  font-weight:900;
+  color:#8a5a00;
+  margin-bottom:8px;
+}
+
+.admin-text{
+  font-size:20px;
+  line-height:1.75;
+  color:#17324d;
+}
+
 .share-box{margin-top:18px;padding-top:16px;border-top:1px solid #e0edf7}
 .share-title{font-size:15px;font-weight:900;color:#45657d;margin-bottom:10px}
 .share-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -44,7 +66,6 @@ body{margin:0;background:#eef5fb;font-family:"Hiragino Sans","Yu Gothic","Meiryo
 </head>
 
 <body>
-
 <div class="wrap">
 
 <img src="top.jpg" class="top-image">
@@ -57,18 +78,17 @@ body{margin:0;background:#eef5fb;font-family:"Hiragino Sans","Yu Gothic","Meiryo
 </div>
 
 <div class="nav">
-<a href="index.html" class="home-btn">トップへ</a>
-
-<a
-href="https://www.appsheet.com/start/76993072-05e5-4df2-85fe-30e175d313bc#table=%E5%BF%97%E6%9C%A8%E3%83%91%E3%83%88%E3%83%AD%E3%83%BC%E3%83%ABDX&page=form&defaults=%5B%5D"
-target="_blank"
-class="post-btn">
-通報する
-</a>
+  <a href="index.html" class="home-btn">トップへ</a>
+  <a
+    href="https://www.appsheet.com/start/76993072-05e5-4df2-85fe-30e175d313bc#table=%E5%BF%97%E6%9C%A8%E3%83%91%E3%83%88%E3%83%AD%E3%83%BC%E3%83%ABDX&page=form"
+    target="_blank"
+    class="post-btn">
+    通報する
+  </a>
 </div>
 
 <div id="list">
-<div class="loading">読み込み中...</div>
+  <div class="loading">読み込み中...</div>
 </div>
 
 <div class="footer">志木パトロールDX</div>
@@ -76,7 +96,6 @@ class="post-btn">
 </div>
 
 <script>
-
 const GAS_URL =
 'https://script.google.com/macros/s/AKfycbys6bU-HEVqwzYuFrckbc1yEY2wv8MU1r0oqW9XvePaBRFK8rBojj3_Dl5P-eahMvkS/exec';
 
@@ -84,240 +103,188 @@ const BASE_URL =
 'https://ichirohns-jpg.github.io/ShikiPatrolDX-001/';
 
 function loadData(){
-
-const script = document.createElement('script');
-
-script.src =
-GAS_URL + '?callback=handlePatrolData&_=' + Date.now();
-
-script.onerror = function(){
-showError('データを取得できませんでした');
-};
-
-document.body.appendChild(script);
+  const script = document.createElement('script');
+  script.src = GAS_URL + '?callback=handlePatrolData&_=' + Date.now();
+  script.onerror = function(){
+    showError('データを取得できませんでした');
+  };
+  document.body.appendChild(script);
 }
 
 window.handlePatrolData = function(res){
+  if(!res || !res.ok){
+    showError('データ取得エラー');
+    return;
+  }
 
-if(!res || !res.ok){
-showError('データ取得エラー');
-return;
-}
+  const list = document.getElementById('list');
 
-const list = document.getElementById('list');
+  if(!res.data || res.data.length === 0){
+    list.innerHTML = '<div class="error">投稿がありません</div>';
+    return;
+  }
 
-if(!res.data || res.data.length === 0){
-list.innerHTML =
-'<div class="error">投稿がありません</div>';
-return;
-}
+  const params = new URLSearchParams(location.search);
+  const id = params.get('id');
 
-const params = new URLSearchParams(location.search);
+  let data = res.data.map(function(item,index){
+    item._index = index;
+    return item;
+  });
 
-const id = params.get('id');
+  if(id){
+    const targetIndex = parseInt(id,10) - 1;
+    data = data.filter(function(item){
+      return item._index === targetIndex;
+    });
 
-let data = res.data.map(function(item,index){
-item._index = index;
-return item;
-});
+    if(data.length === 0){
+      list.innerHTML = '<div class="error">指定された投稿が見つかりません</div>';
+      return;
+    }
+  }
 
-if(id){
+  let html = '';
 
-const targetIndex = parseInt(id,10) - 1;
+  data.forEach(function(item){
+    const no = String(item._index + 1).padStart(3,'0');
 
-data = data.filter(function(item){
-return item._index === targetIndex;
-});
+    const shareUrl =
+      BASE_URL + 'share-' + no + '.html?v=2';
 
-if(data.length === 0){
+    const statusClass = getStatusClass(item.status);
 
-list.innerHTML =
-'<div class="error">指定された投稿が見つかりません</div>';
+    const copyText =
+      '志木パトロールDX\n' +
+      (item.kind || '地域情報') + '\n' +
+      (item.detail || '') + '\n' +
+      shareUrl;
 
-return;
-}
-}
+    const xText =
+      '志木パトロールDX\n' +
+      (item.kind || '地域情報') + '\n' +
+      (item.detail || '地域の危険箇所を写真と地図で確認できます。');
 
-let html = '';
+    html += `
+      <div class="card">
 
-data.forEach(function(item){
+        <div class="kind">${escapeHtml(item.kind || '地域情報')}</div>
 
-const no =
-String(item._index + 1).padStart(3,'0');
+        <div class="date">${escapeHtml(item.date || '')}</div>
 
-const shareUrl =
-BASE_URL + 'share-' + no + '.html?v=2';
+        <div class="info-box">
+          <div class="info-label">内容</div>
+          <div class="info-text">${escapeHtml(item.detail || '詳細内容は未入力です。')}</div>
+        </div>
 
-const statusClass =
-getStatusClass(item.status);
+        ${
+          item.photoUrl
+          ? `<img src="${escapeAttr(item.photoUrl)}" class="photo">`
+          : ''
+        }
 
-const copyText =
-'志木パトロールDX\n' +
-(item.kind || '地域情報') + '\n' +
-(item.detail || '') + '\n' +
-shareUrl;
+        <div class="status ${statusClass}">
+          ${escapeHtml(item.status || '未対応')}
+        </div>
 
-const xText =
-'志木パトロールDX\n' +
-(item.kind || '地域情報') + '\n' +
-(item.detail || '地域の危険箇所を写真と地図で確認できます。');
+        ${
+          item.adminMessage
+          ? `
+            <div class="admin-message">
+              <div class="admin-title">管理者からのメッセージ</div>
+              <div class="admin-text">${escapeHtml(item.adminMessage)}</div>
+            </div>
+          `
+          : ''
+        }
 
-html += `
+        ${
+          item.location
+          ? `<a href="https://maps.google.com/?q=${encodeURIComponent(item.location)}" target="_blank" class="map-btn">Googleマップを見る</a>`
+          : ''
+        }
 
-<div class="card">
+        <div class="share-box">
+          <div class="share-title">この記事を共有</div>
 
-<div class="kind">
-${escapeHtml(item.kind || '地域情報')}
-</div>
+          <div class="share-grid">
 
-<div class="date">
-${escapeHtml(item.date || '')}
-</div>
+            <button
+              class="share-btn copy-btn"
+              onclick="copyShare('${encodeURIComponent(copyText)}')">
+              URLコピー
+            </button>
 
-<div class="info-box">
+            <a
+              class="share-btn fb-btn"
+              target="_blank"
+              href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}">
+              Facebook
+            </a>
 
-<div class="info-label">
-内容
-</div>
+            <a
+              class="share-btn line-btn"
+              target="_blank"
+              href="https://line.me/R/msg/text/?${encodeURIComponent(copyText)}">
+              LINE
+            </a>
 
-<div class="info-text">
-${escapeHtml(item.detail || '詳細内容は未入力です。')}
-</div>
+            <a
+              class="share-btn x-btn"
+              target="_blank"
+              href="https://twitter.com/intent/tweet?text=${encodeURIComponent(xText)}&url=${encodeURIComponent(shareUrl)}">
+              X
+            </a>
 
-</div>
+          </div>
+        </div>
 
-${
-item.photoUrl
-? `<img src="${escapeAttr(item.photoUrl)}" class="photo">`
-: ''
-}
+      </div>
+    `;
+  });
 
-<div class="status ${statusClass}">
-${escapeHtml(item.status || '未対応')}
-</div>
-
-${
-item.location
-? `<a href="https://maps.google.com/?q=${encodeURIComponent(item.location)}" target="_blank" class="map-btn">Googleマップを見る</a>`
-: ''
-}
-
-<div class="share-box">
-
-<div class="share-title">
-この記事を共有
-</div>
-
-<div class="share-grid">
-
-<button
-class="share-btn copy-btn"
-onclick="copyShare('${encodeURIComponent(copyText)}')">
-
-URLコピー
-
-</button>
-
-<a
-class="share-btn fb-btn"
-target="_blank"
-href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}">
-
-Facebook
-
-</a>
-
-<a
-class="share-btn line-btn"
-target="_blank"
-href="https://line.me/R/msg/text/?${encodeURIComponent(copyText)}">
-
-LINE
-
-</a>
-
-<a
-class="share-btn x-btn"
-target="_blank"
-href="https://twitter.com/intent/tweet?text=${encodeURIComponent(xText)}&url=${encodeURIComponent(shareUrl)}">
-
-X
-
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-`;
-});
-
-list.innerHTML = html;
+  list.innerHTML = html;
 };
 
 function copyShare(encodedText){
+  const text = decodeURIComponent(encodedText);
 
-const text =
-decodeURIComponent(encodedText);
-
-if(navigator.clipboard){
-
-navigator.clipboard.writeText(text)
-.then(function(){
-
-alert('コピーしました');
-
-})
-.catch(function(){
-
-prompt('コピーしてください', text);
-
-});
-
-}else{
-
-prompt('コピーしてください', text);
-
-}
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(text).then(function(){
+      alert('コピーしました');
+    }).catch(function(){
+      prompt('コピーしてください', text);
+    });
+  }else{
+    prompt('コピーしてください', text);
+  }
 }
 
 function getStatusClass(status){
-
-const s = String(status || '');
-
-if(s.includes('済')) return 'green';
-
-if(s.includes('中')) return 'yellow';
-
-if(s.includes('未')) return 'red';
-
-return 'blue';
+  const s = String(status || '');
+  if(s.includes('済')) return 'green';
+  if(s.includes('中')) return 'yellow';
+  if(s.includes('未')) return 'red';
+  return 'blue';
 }
 
 function escapeHtml(str){
-
-return String(str || '')
-.replace(/&/g,'&amp;')
-.replace(/</g,'&lt;')
-.replace(/>/g,'&gt;');
+  return String(str || '')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;');
 }
 
 function escapeAttr(str){
-
-return escapeHtml(str)
-.replace(/"/g,'&quot;');
+  return escapeHtml(str).replace(/"/g,'&quot;');
 }
 
 function showError(msg){
-
-document.getElementById('list').innerHTML =
-'<div class="error">' + escapeHtml(msg) + '</div>';
+  document.getElementById('list').innerHTML =
+    '<div class="error">' + escapeHtml(msg) + '</div>';
 }
 
 loadData();
-
 </script>
 
 </body>
