@@ -192,6 +192,7 @@ body{
   font-weight:900;
   padding:16px 10px;
   border-radius:18px;
+  border:none;
 }
 
 .fb-btn{
@@ -208,7 +209,6 @@ body{
 
 .copy-btn{
   background:#60788d;
-  border:none;
 }
 
 .loading{
@@ -290,14 +290,19 @@ const list =
 document.getElementById('list');
 
 if(!res || !res.ok){
-list.innerHTML = 'エラー';
+
+list.innerHTML =
+'<div class="card">データ取得エラー</div>';
+
 return;
 }
 
 const improved =
 res.data.filter(function(item){
+
 return item.status &&
 item.status.includes('済');
+
 });
 
 if(improved.length === 0){
@@ -310,20 +315,28 @@ return;
 
 let html = '';
 
-improved.forEach(function(item,index){
-
-const no =
-String(index + 1).padStart(3,'0');
+improved.forEach(function(item){
 
 const shareUrl =
-'https://ichirohns-jpg.github.io/ShikiPatrolDX-001/share-' +
-no +
-'.html';
+'https://ichirohns-jpg.github.io/ShikiPatrolDX-001/improved.html';
 
 const lineText =
 '改善しました｜志木パトロールDX\n\n' +
+
+'市民から寄せられた地域の異常について、対応状況と改善後の様子を公開しています。\n\n' +
+
+'【内容】\n' +
 (item.kind || '') + '\n\n' +
-(item.improvement || '') + '\n\n' +
+
+(item.improvement
+? '【改善内容】\n' + item.improvement + '\n\n'
+: '') +
+
+(item.responseDate
+? '【対応日】\n' + item.responseDate + '\n\n'
+: '') +
+
+'▼ 詳しくはこちら\n' +
 shareUrl;
 
 html += `
