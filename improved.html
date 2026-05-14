@@ -6,9 +6,7 @@
 <title>改善しました一覧｜志木パトロールDX</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
   margin:0;
@@ -162,6 +160,19 @@ body{
   color:#567;
 }
 
+.detail-btn{
+  display:block;
+  text-align:center;
+  text-decoration:none;
+  color:#fff;
+  background:linear-gradient(135deg,#0a84ff,#005bbb);
+  font-size:23px;
+  font-weight:900;
+  padding:17px;
+  border-radius:18px;
+  margin-top:22px;
+}
+
 .share-box{
   margin-top:22px;
   background:#f5faff;
@@ -195,21 +206,10 @@ body{
   border:none;
 }
 
-.fb-btn{
-  background:#1877f2;
-}
-
-.line-btn{
-  background:#06c755;
-}
-
-.x-btn{
-  background:#111;
-}
-
-.copy-btn{
-  background:#60788d;
-}
+.fb-btn{background:#1877f2}
+.line-btn{background:#06c755}
+.x-btn{background:#111}
+.copy-btn{background:#60788d}
 
 .loading{
   text-align:center;
@@ -238,8 +238,7 @@ body{
 </div>
 
 <div class="desc">
-市民から寄せられた地域の異常について、
-改善後の様子を公開しています。
+市民から寄せられた地域の異常について、改善後の様子を公開しています。
 </div>
 
 <div class="nav">
@@ -297,47 +296,29 @@ list.innerHTML =
 return;
 }
 
-const improved =
-res.data.filter(function(item){
+let html = '';
 
-return item.status &&
-item.status.includes('済');
+res.data.forEach(function(item,index){
 
-});
-
-if(improved.length === 0){
-
-list.innerHTML =
-'<div class="card">改善済みはまだありません。</div>';
-
+if(!(item.status && item.status.includes('済'))){
 return;
 }
 
-let html = '';
+const id =
+String(index + 1);
 
-improved.forEach(function(item){
-
-const shareUrl =
-'https://ichirohns-jpg.github.io/ShikiPatrolDX-001/improved.html';
+const detailUrl =
+'https://ichirohns-jpg.github.io/ShikiPatrolDX-001/app.html?id=' + id;
 
 const lineText =
 '改善しました｜志木パトロールDX\n\n' +
-
 '市民から寄せられた地域の異常について、対応状況と改善後の様子を公開しています。\n\n' +
-
 '【内容】\n' +
 (item.kind || '') + '\n\n' +
-
-(item.improvement
-? '【改善内容】\n' + item.improvement + '\n\n'
-: '') +
-
-(item.responseDate
-? '【対応日】\n' + item.responseDate + '\n\n'
-: '') +
-
+(item.improvement ? '【改善内容】\n' + item.improvement + '\n\n' : '') +
+(item.responseDate ? '【対応日】\n' + item.responseDate + '\n\n' : '') +
 '▼ 詳しくはこちら\n' +
-shareUrl;
+detailUrl;
 
 html += `
 
@@ -418,6 +399,12 @@ ${escapeHtml(item.responseDate)}
 
 </div>
 
+<a
+href="${detailUrl}"
+class="detail-btn">
+この改善を見る
+</a>
+
 <div class="share-box">
 
 <div class="share-title">
@@ -429,7 +416,7 @@ ${escapeHtml(item.responseDate)}
 <a
 class="share-btn fb-btn"
 target="_blank"
-href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}">
+href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(detailUrl)}">
 Facebook
 </a>
 
@@ -443,7 +430,7 @@ LINE
 <a
 class="share-btn x-btn"
 target="_blank"
-href="https://twitter.com/intent/tweet?text=${encodeURIComponent('改善しました｜志木パトロールDX')}&url=${encodeURIComponent(shareUrl)}">
+href="https://twitter.com/intent/tweet?text=${encodeURIComponent('改善しました｜志木パトロールDX')}&url=${encodeURIComponent(detailUrl)}">
 X
 </a>
 
@@ -460,7 +447,16 @@ onclick="copyText('${encodeURIComponent(lineText)}')">
 </div>
 
 `;
+
 });
+
+if(!html){
+
+list.innerHTML =
+'<div class="card">改善済みはまだありません。</div>';
+
+return;
+}
 
 list.innerHTML = html;
 };
