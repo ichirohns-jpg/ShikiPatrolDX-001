@@ -207,6 +207,24 @@ body{
   margin-top:22px;
 }
 
+.bottom-nav{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:26px;
+}
+
+.bottom-btn{
+  display:block;
+  text-align:center;
+  text-decoration:none;
+  color:#fff;
+  font-size:22px;
+  font-weight:900;
+  padding:18px 10px;
+  border-radius:18px;
+}
+
 .loading{
   text-align:center;
   font-size:26px;
@@ -249,7 +267,10 @@ body{
 </div>
 
 <div class="nav">
-  <a href="index.html" class="home-btn">トップへ</a>
+
+  <a href="index.html" class="home-btn">
+    トップへ
+  </a>
 
   <a
     href="https://www.appsheet.com/start/76993072-05e5-4df2-85fe-30e175d313bc#table=%E5%BF%97%E6%9C%A8%E3%83%91%E3%83%88%E3%83%AD%E3%83%BC%E3%83%ABDX&page=form"
@@ -257,6 +278,7 @@ body{
     class="post-btn">
     通報する
   </a>
+
 </div>
 
 <div id="list">
@@ -323,6 +345,7 @@ window.handlePatrolData = function(res){
         </div>
 
         <div class="info-box">
+
           <div class="info-label">
             内容
           </div>
@@ -330,6 +353,7 @@ window.handlePatrolData = function(res){
           <div class="info-text">
             ${escapeHtml(item.detail || '')}
           </div>
+
         </div>
 
         ${
@@ -403,6 +427,23 @@ window.handlePatrolData = function(res){
           `
           : ''
         }
+
+        <div class="bottom-nav">
+
+          <a
+            href="index.html"
+            class="bottom-btn home-btn">
+            トップへ戻る
+          </a>
+
+          <a
+            href="https://www.appsheet.com/start/76993072-05e5-4df2-85fe-30e175d313bc#table=%E5%BF%97%E6%9C%A8%E3%83%91%E3%83%88%E3%83%AD%E3%83%BC%E3%83%ABDX&page=form"
+            target="_blank"
+            class="bottom-btn post-btn">
+            通報する
+          </a>
+
+        </div>
 
       </div>
     `;
