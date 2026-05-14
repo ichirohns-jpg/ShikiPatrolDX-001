@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>改善しました一覧｜志木パトロールDX</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:#eef5fb;
+  font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  color:#17324d;
+}
+
+.wrap{
+  width:100%;
+  max-width:760px;
+  margin:0 auto;
+  padding:14px 10px 80px;
+}
+
+.top-image{
+  width:100%;
+  border-radius:22px;
+  display:block;
+  margin-bottom:22px;
+  box-shadow:0 6px 20px rgba(0,0,0,.15);
+}
+
+.title{
+  font-size:36px;
+  font-weight:900;
+  line-height:1.3;
+  margin-bottom:14px;
+  color:#147a28;
+}
+
+.desc{
+  font-size:18px;
+  line-height:1.7;
+  margin-bottom:24px;
+}
+
+.nav{
+  display:flex;
+  gap:10px;
+  margin-bottom:24px;
+}
+
+.nav a{
+  flex:1;
+  text-align:center;
+  text-decoration:none;
+  font-size:21px;
+  font-weight:900;
+  padding:17px 8px;
+  border-radius:17px;
+  color:#fff;
+}
+
+.home-btn{
+  background:#617890;
+}
+
+.post-btn{
+  background:linear-gradient(135deg,#1d93ff,#0068d9);
+}
+
+.card{
+  background:#fff;
+  border-radius:24px;
+  padding:16px;
+  margin-bottom:24px;
+  box-shadow:0 6px 18px rgba(0,0,0,.12);
+}
+
+.kind{
+  display:inline-block;
+  padding:9px 15px;
+  border-radius:999px;
+  font-size:18px;
+  font-weight:900;
+  margin-bottom:14px;
+  background:#def7df;
+  color:#147a28;
+}
+
+.date{
+  font-size:16px;
+  color:#678095;
+  margin-bottom:14px;
+}
+
+.section-title{
+  font-size:24px;
+  font-weight:900;
+  margin-bottom:12px;
+}
+
+.compare-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-bottom:18px;
+}
+
+.compare-box{
+  background:#f8fbff;
+  border-radius:18px;
+  padding:10px;
+}
+
+.compare-label{
+  font-size:18px;
+  font-weight:900;
+  margin-bottom:10px;
+}
+
+.before-label{
+  color:#c20000;
+}
+
+.after-label{
+  color:#147a28;
+}
+
+.compare-photo{
+  width:100%;
+  border-radius:18px;
+  display:block;
+}
+
+.improve-box{
+  background:#eefaf0;
+  border:2px solid #bfe7c5;
+  border-radius:20px;
+  padding:16px;
+  margin-top:18px;
+}
+
+.improve-title{
+  font-size:24px;
+  font-weight:900;
+  color:#147a28;
+  margin-bottom:12px;
+}
+
+.improve-text{
+  font-size:20px;
+  line-height:1.8;
+}
+
+.response-date{
+  margin-top:14px;
+  font-size:18px;
+  font-weight:900;
+  color:#567;
+}
+
+.share-box{
+  margin-top:22px;
+  background:#f5faff;
+  border:2px solid #d4e7f8;
+  border-radius:22px;
+  padding:18px;
+}
+
+.share-title{
+  font-size:22px;
+  font-weight:900;
+  color:#0c5f9c;
+  margin-bottom:14px;
+}
+
+.share-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.share-btn{
+  display:block;
+  text-align:center;
+  text-decoration:none;
+  color:#fff;
+  font-size:20px;
+  font-weight:900;
+  padding:16px 10px;
+  border-radius:18px;
+}
+
+.fb-btn{
+  background:#1877f2;
+}
+
+.line-btn{
+  background:#06c755;
+}
+
+.x-btn{
+  background:#111;
+}
+
+.copy-btn{
+  background:#60788d;
+  border:none;
+}
+
+.loading{
+  text-align:center;
+  font-size:26px;
+  color:#678095;
+  padding:50px 20px;
+}
+
+.footer{
+  text-align:center;
+  color:#678095;
+  font-size:14px;
+  padding-top:20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<img src="top.jpg" class="top-image">
+
+<div class="title">
+改善しました一覧
+</div>
+
+<div class="desc">
+市民から寄せられた地域の異常について、
+改善後の様子を公開しています。
+</div>
+
+<div class="nav">
+
+<a href="app.html" class="home-btn">
+一覧へ戻る
+</a>
+
+<a
+href="https://www.appsheet.com/start/76993072-05e5-4df2-85fe-30e175d313bc#table=%E5%BF%97%E6%9C%A8%E3%83%91%E3%83%88%E3%83%AD%E3%83%BC%E3%83%ABDX&page=form"
+target="_blank"
+class="post-btn">
+通報する
+</a>
+
+</div>
+
+<div id="list">
+<div class="loading">読み込み中...</div>
+</div>
+
+<div class="footer">
+志木パトロールDX
+</div>
+
+</div>
+
+<script>
+
+const GAS_URL =
+'https://script.google.com/macros/s/AKfycbxGj9p16DHK4zazArWIxQsIkdOungcIwkGknxicVc940rTQGUHgqME82fzFPXcyHkIQ/exec';
+
+function loadData(){
+
+const script = document.createElement('script');
+
+script.src =
+GAS_URL +
+'?callback=handlePatrolData&_=' +
+Date.now();
+
+document.body.appendChild(script);
+}
+
+window.handlePatrolData = function(res){
+
+const list =
+document.getElementById('list');
+
+if(!res || !res.ok){
+list.innerHTML = 'エラー';
+return;
+}
+
+const improved =
+res.data.filter(function(item){
+return item.status &&
+item.status.includes('済');
+});
+
+if(improved.length === 0){
+
+list.innerHTML =
+'<div class="card">改善済みはまだありません。</div>';
+
+return;
+}
+
+let html = '';
+
+improved.forEach(function(item,index){
+
+const no =
+String(index + 1).padStart(3,'0');
+
+const shareUrl =
+'https://ichirohns-jpg.github.io/ShikiPatrolDX-001/share-' +
+no +
+'.html';
+
+const lineText =
+'改善しました｜志木パトロールDX\n\n' +
+(item.kind || '') + '\n\n' +
+(item.improvement || '') + '\n\n' +
+shareUrl;
+
+html += `
+
+<div class="card">
+
+<div class="kind">
+改善済み
+</div>
+
+<div class="date">
+${escapeHtml(item.date || '')}
+</div>
+
+<div class="section-title">
+${escapeHtml(item.kind || '')}
+</div>
+
+<div class="compare-grid">
+
+<div class="compare-box">
+
+<div class="compare-label before-label">
+改善前
+</div>
+
+${
+item.photoUrl
+? `
+<img
+src="${escapeAttr(item.photoUrl)}"
+class="compare-photo">
+`
+: ''
+}
+
+</div>
+
+<div class="compare-box">
+
+<div class="compare-label after-label">
+改善後
+</div>
+
+${
+item.afterPhotoUrl
+? `
+<img
+src="${escapeAttr(item.afterPhotoUrl)}"
+class="compare-photo">
+`
+: ''
+}
+
+</div>
+
+</div>
+
+<div class="improve-box">
+
+<div class="improve-title">
+改善内容
+</div>
+
+<div class="improve-text">
+${escapeHtml(item.improvement || '')}
+</div>
+
+${
+item.responseDate
+? `
+<div class="response-date">
+対応日：
+${escapeHtml(item.responseDate)}
+</div>
+`
+: ''
+}
+
+</div>
+
+<div class="share-box">
+
+<div class="share-title">
+改善しましたを共有
+</div>
+
+<div class="share-grid">
+
+<a
+class="share-btn fb-btn"
+target="_blank"
+href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}">
+Facebook
+</a>
+
+<a
+class="share-btn line-btn"
+target="_blank"
+href="https://line.me/R/msg/text/?${encodeURIComponent(lineText)}">
+LINE
+</a>
+
+<a
+class="share-btn x-btn"
+target="_blank"
+href="https://twitter.com/intent/tweet?text=${encodeURIComponent('改善しました｜志木パトロールDX')}&url=${encodeURIComponent(shareUrl)}">
+X
+</a>
+
+<button
+class="share-btn copy-btn"
+onclick="copyText('${encodeURIComponent(lineText)}')">
+文章コピー
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+});
+
+list.innerHTML = html;
+};
+
+function copyText(encodedText){
+
+const text =
+decodeURIComponent(encodedText);
+
+if(navigator.clipboard){
+
+navigator.clipboard.writeText(text)
+.then(function(){
+alert('文章をコピーしました');
+});
+
+}else{
+
+prompt('コピーしてください',text);
+
+}
+}
+
+function escapeHtml(str){
+
+return String(str || '')
+.replace(/&/g,'&amp;')
+.replace(/</g,'&lt;')
+.replace(/>/g,'&gt;');
+}
+
+function escapeAttr(str){
+
+return escapeHtml(str)
+.replace(/"/g,'&quot;');
+}
+
+loadData();
+
+</script>
+
+</body>
+</html>
