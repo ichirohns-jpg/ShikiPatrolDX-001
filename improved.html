@@ -61,13 +61,8 @@ body{
   color:#fff;
 }
 
-.home-btn{
-  background:#617890;
-}
-
-.post-btn{
-  background:linear-gradient(135deg,#1d93ff,#0068d9);
-}
+.home-btn{background:#617890}
+.post-btn{background:linear-gradient(135deg,#1d93ff,#0068d9)}
 
 .card{
   background:#fff;
@@ -119,13 +114,8 @@ body{
   margin-bottom:10px;
 }
 
-.before-label{
-  color:#c20000;
-}
-
-.after-label{
-  color:#147a28;
-}
+.before-label{color:#c20000}
+.after-label{color:#147a28}
 
 .compare-photo{
   width:100%;
@@ -233,268 +223,194 @@ body{
 
 <img src="top.jpg" class="top-image">
 
-<div class="title">
-改善しました一覧
-</div>
+<div class="title">改善しました一覧</div>
 
 <div class="desc">
 市民から寄せられた地域の異常について、改善後の様子を公開しています。
 </div>
 
 <div class="nav">
-
-<a href="app.html" class="home-btn">
-一覧へ戻る
-</a>
-
-<a
-href="https://www.appsheet.com/start/76993072-05e5-4df2-85fe-30e175d313bc#table=%E5%BF%97%E6%9C%A8%E3%83%91%E3%83%88%E3%83%AD%E3%83%BC%E3%83%ABDX&page=form"
-target="_blank"
-class="post-btn">
-通報する
-</a>
-
+  <a href="app.html" class="home-btn">一覧へ戻る</a>
+  <a
+    href="https://www.appsheet.com/start/76993072-05e5-4df2-85fe-30e175d313bc#table=%E5%BF%97%E6%9C%A8%E3%83%91%E3%83%88%E3%83%AD%E3%83%BC%E3%83%ABDX&page=form"
+    target="_blank"
+    class="post-btn">
+    通報する
+  </a>
 </div>
 
 <div id="list">
-<div class="loading">読み込み中...</div>
+  <div class="loading">読み込み中...</div>
 </div>
 
-<div class="footer">
-志木パトロールDX
-</div>
+<div class="footer">志木パトロールDX</div>
 
 </div>
 
 <script>
-
-https://github.com/ichirohns-jpg/ShikiPatrolDX-001/edit/main/improved.html
+const GAS_URL =
+'https://script.google.com/macros/s/AKfycbxv21OMo_WzM54usxXYKgWfbSx-IeRbpjNvn_CIDC2Jk6-qAsyCd72SRkNTB1NjFguL/exec';
 
 function loadData(){
+  const script = document.createElement('script');
+  script.src = GAS_URL + '?callback=handlePatrolData&_=' + Date.now();
 
-const script = document.createElement('script');
+  script.onerror = function(){
+    document.getElementById('list').innerHTML =
+      '<div class="card">データを取得できませんでした。</div>';
+  };
 
-script.src =
-GAS_URL +
-'?callback=handlePatrolData&_=' +
-Date.now();
-
-document.body.appendChild(script);
+  document.body.appendChild(script);
 }
 
 window.handlePatrolData = function(res){
 
-const list =
-document.getElementById('list');
+  const list = document.getElementById('list');
 
-if(!res || !res.ok){
+  if(!res || !res.ok){
+    list.innerHTML = '<div class="card">データ取得エラー</div>';
+    return;
+  }
 
-list.innerHTML =
-'<div class="card">データ取得エラー</div>';
+  const data = res.data || [];
 
-return;
-}
+  let html = '';
 
-let html = '';
+  data.forEach(function(item){
 
-res.data.forEach(function(item,index){
+    if(!(item.status && item.status.includes('済'))){
+      return;
+    }
 
-if(!(item.status && item.status.includes('済'))){
-return;
-}
+    const id = item.id || item.rowNumber || '';
+    const detailUrl =
+      'https://ichirohns-jpg.github.io/ShikiPatrolDX-001/app.html?id=' + encodeURIComponent(id);
 
-const id =
-String(index + 1);
+    const lineText =
+      '改善しました｜志木パトロールDX\n\n' +
+      '市民から寄せられた地域の異常について、対応状況と改善後の様子を公開しています。\n\n' +
+      '【内容】\n' +
+      (item.kind || '') + '\n\n' +
+      (item.improvement ? '【改善内容】\n' + item.improvement + '\n\n' : '') +
+      (item.responseDate ? '【対応日】\n' + item.responseDate + '\n\n' : '') +
+      '▼ 詳しくはこちら\n' +
+      detailUrl;
 
-const detailUrl =
-'https://ichirohns-jpg.github.io/ShikiPatrolDX-001/app.html?id=' + id;
+    html += `
+      <div class="card">
 
-const lineText =
-'改善しました｜志木パトロールDX\n\n' +
-'市民から寄せられた地域の異常について、対応状況と改善後の様子を公開しています。\n\n' +
-'【内容】\n' +
-(item.kind || '') + '\n\n' +
-(item.improvement ? '【改善内容】\n' + item.improvement + '\n\n' : '') +
-(item.responseDate ? '【対応日】\n' + item.responseDate + '\n\n' : '') +
-'▼ 詳しくはこちら\n' +
-detailUrl;
+        <div class="kind">改善済み</div>
 
-html += `
+        <div class="date">${escapeHtml(item.date || '')}</div>
 
-<div class="card">
+        <div class="section-title">${escapeHtml(item.kind || '')}</div>
 
-<div class="kind">
-改善済み
-</div>
+        <div class="compare-grid">
 
-<div class="date">
-${escapeHtml(item.date || '')}
-</div>
+          <div class="compare-box">
+            <div class="compare-label before-label">改善前</div>
+            ${
+              item.photoUrl
+              ? `<img src="${escapeAttr(item.photoUrl)}" class="compare-photo">`
+              : ''
+            }
+          </div>
 
-<div class="section-title">
-${escapeHtml(item.kind || '')}
-</div>
+          <div class="compare-box">
+            <div class="compare-label after-label">改善後</div>
+            ${
+              item.afterPhotoUrl
+              ? `<img src="${escapeAttr(item.afterPhotoUrl)}" class="compare-photo">`
+              : ''
+            }
+          </div>
 
-<div class="compare-grid">
+        </div>
 
-<div class="compare-box">
+        <div class="improve-box">
+          <div class="improve-title">改善内容</div>
+          <div class="improve-text">${escapeHtml(item.improvement || '')}</div>
 
-<div class="compare-label before-label">
-改善前
-</div>
+          ${
+            item.responseDate
+            ? `<div class="response-date">対応日：${escapeHtml(item.responseDate)}</div>`
+            : ''
+          }
+        </div>
 
-${
-item.photoUrl
-? `
-<img
-src="${escapeAttr(item.photoUrl)}"
-class="compare-photo">
-`
-: ''
-}
+        <a href="${detailUrl}" class="detail-btn">この改善を見る</a>
 
-</div>
+        <div class="share-box">
+          <div class="share-title">改善しましたを共有</div>
 
-<div class="compare-box">
+          <div class="share-grid">
 
-<div class="compare-label after-label">
-改善後
-</div>
+            <a
+              class="share-btn fb-btn"
+              target="_blank"
+              href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(detailUrl)}">
+              Facebook
+            </a>
 
-${
-item.afterPhotoUrl
-? `
-<img
-src="${escapeAttr(item.afterPhotoUrl)}"
-class="compare-photo">
-`
-: ''
-}
+            <a
+              class="share-btn line-btn"
+              target="_blank"
+              href="https://line.me/R/msg/text/?${encodeURIComponent(lineText)}">
+              LINE
+            </a>
 
-</div>
+            <a
+              class="share-btn x-btn"
+              target="_blank"
+              href="https://twitter.com/intent/tweet?text=${encodeURIComponent('改善しました｜志木パトロールDX')}&url=${encodeURIComponent(detailUrl)}">
+              X
+            </a>
 
-</div>
+            <button
+              class="share-btn copy-btn"
+              onclick="copyText('${encodeURIComponent(lineText)}')">
+              文章コピー
+            </button>
 
-<div class="improve-box">
+          </div>
+        </div>
 
-<div class="improve-title">
-改善内容
-</div>
+      </div>
+    `;
+  });
 
-<div class="improve-text">
-${escapeHtml(item.improvement || '')}
-</div>
+  if(!html){
+    list.innerHTML = '<div class="card">改善済みはまだありません。</div>';
+    return;
+  }
 
-${
-item.responseDate
-? `
-<div class="response-date">
-対応日：
-${escapeHtml(item.responseDate)}
-</div>
-`
-: ''
-}
-
-</div>
-
-<a
-href="${detailUrl}"
-class="detail-btn">
-この改善を見る
-</a>
-
-<div class="share-box">
-
-<div class="share-title">
-改善しましたを共有
-</div>
-
-<div class="share-grid">
-
-<a
-class="share-btn fb-btn"
-target="_blank"
-href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(detailUrl)}">
-Facebook
-</a>
-
-<a
-class="share-btn line-btn"
-target="_blank"
-href="https://line.me/R/msg/text/?${encodeURIComponent(lineText)}">
-LINE
-</a>
-
-<a
-class="share-btn x-btn"
-target="_blank"
-href="https://twitter.com/intent/tweet?text=${encodeURIComponent('改善しました｜志木パトロールDX')}&url=${encodeURIComponent(detailUrl)}">
-X
-</a>
-
-<button
-class="share-btn copy-btn"
-onclick="copyText('${encodeURIComponent(lineText)}')">
-文章コピー
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-`;
-
-});
-
-if(!html){
-
-list.innerHTML =
-'<div class="card">改善済みはまだありません。</div>';
-
-return;
-}
-
-list.innerHTML = html;
+  list.innerHTML = html;
 };
 
 function copyText(encodedText){
+  const text = decodeURIComponent(encodedText);
 
-const text =
-decodeURIComponent(encodedText);
-
-if(navigator.clipboard){
-
-navigator.clipboard.writeText(text)
-.then(function(){
-alert('文章をコピーしました');
-});
-
-}else{
-
-prompt('コピーしてください',text);
-
-}
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(text).then(function(){
+      alert('文章をコピーしました');
+    });
+  }else{
+    prompt('コピーしてください', text);
+  }
 }
 
 function escapeHtml(str){
-
-return String(str || '')
-.replace(/&/g,'&amp;')
-.replace(/</g,'&lt;')
-.replace(/>/g,'&gt;');
+  return String(str || '')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;');
 }
 
 function escapeAttr(str){
-
-return escapeHtml(str)
-.replace(/"/g,'&quot;');
+  return escapeHtml(str).replace(/"/g,'&quot;');
 }
 
 loadData();
-
 </script>
 
 </body>
