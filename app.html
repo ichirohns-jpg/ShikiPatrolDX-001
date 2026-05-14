@@ -207,6 +207,54 @@ body{
   margin-top:22px;
 }
 
+.share-box{
+  margin-top:24px;
+  background:#f5faff;
+  border:2px solid #d4e7f8;
+  border-radius:22px;
+  padding:18px;
+}
+
+.share-title{
+  font-size:22px;
+  font-weight:900;
+  color:#0c5f9c;
+  margin-bottom:14px;
+}
+
+.share-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.share-btn{
+  display:block;
+  text-align:center;
+  text-decoration:none;
+  color:#fff;
+  font-size:20px;
+  font-weight:900;
+  padding:16px 10px;
+  border-radius:18px;
+}
+
+.fb-btn{
+  background:#1877f2;
+}
+
+.line-btn{
+  background:#06c755;
+}
+
+.x-btn{
+  background:#111;
+}
+
+.copy-btn{
+  background:#60788d;
+}
+
 .bottom-nav{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -268,21 +316,21 @@ body{
 
 <div class="nav">
 
-  <a href="index.html" class="home-btn">
-    トップへ
-  </a>
+<a href="index.html" class="home-btn">
+トップへ
+</a>
 
-  <a
-    href="https://www.appsheet.com/start/76993072-05e5-4df2-85fe-30e175d313bc#table=%E5%BF%97%E6%9C%A8%E3%83%91%E3%83%88%E3%83%AD%E3%83%BC%E3%83%ABDX&page=form"
-    target="_blank"
-    class="post-btn">
-    通報する
-  </a>
+<a
+href="https://www.appsheet.com/start/76993072-05e5-4df2-85fe-30e175d313bc#table=%E5%BF%97%E6%9C%A8%E3%83%91%E3%83%88%E3%83%AD%E3%83%BC%E3%83%ABDX&page=form"
+target="_blank"
+class="post-btn">
+通報する
+</a>
 
 </div>
 
 <div id="list">
-  <div class="loading">読み込み中...</div>
+<div class="loading">読み込み中...</div>
 </div>
 
 <div class="footer">
@@ -297,192 +345,259 @@ const GAS_URL =
 
 function loadData(){
 
-  const script = document.createElement('script');
+const script = document.createElement('script');
 
-  script.src =
-    GAS_URL +
-    '?callback=handlePatrolData&_=' +
-    Date.now();
+script.src =
+GAS_URL +
+'?callback=handlePatrolData&_=' +
+Date.now();
 
-  script.onerror = function(){
-    showError('データを取得できませんでした');
-  };
+script.onerror = function(){
+showError('データを取得できませんでした');
+};
 
-  document.body.appendChild(script);
+document.body.appendChild(script);
 }
 
 window.handlePatrolData = function(res){
 
-  if(!res || !res.ok){
-    showError('データ取得エラー');
-    return;
-  }
+if(!res || !res.ok){
+showError('データ取得エラー');
+return;
+}
 
-  const list = document.getElementById('list');
+const list = document.getElementById('list');
 
-  if(!res.data || res.data.length === 0){
-    list.innerHTML =
-      '<div class="error">投稿がありません</div>';
-    return;
-  }
+if(!res.data || res.data.length === 0){
+list.innerHTML =
+'<div class="error">投稿がありません</div>';
+return;
+}
 
-  let html = '';
+let html = '';
 
-  res.data.forEach(function(item){
+res.data.forEach(function(item,index){
 
-    const statusClass =
-      getStatusClass(item.status);
+const statusClass =
+getStatusClass(item.status);
 
-    html += `
-      <div class="card">
+const no =
+String(index + 1).padStart(3,'0');
 
-        <div class="kind">
-          ${escapeHtml(item.kind || '地域情報')}
-        </div>
+const shareUrl =
+'https://ichirohns-jpg.github.io/ShikiPatrolDX-001/share-' +
+no +
+'.html';
 
-        <div class="date">
-          ${escapeHtml(item.date || '')}
-        </div>
+html += `
+<div class="card">
 
-        <div class="info-box">
+<div class="kind">
+${escapeHtml(item.kind || '地域情報')}
+</div>
 
-          <div class="info-label">
-            内容
-          </div>
+<div class="date">
+${escapeHtml(item.date || '')}
+</div>
 
-          <div class="info-text">
-            ${escapeHtml(item.detail || '')}
-          </div>
+<div class="info-box">
 
-        </div>
+<div class="info-label">
+内容
+</div>
 
-        ${
-          item.photoUrl
-          ? `<img src="${escapeAttr(item.photoUrl)}" class="photo">`
-          : ''
-        }
+<div class="info-text">
+${escapeHtml(item.detail || '')}
+</div>
 
-        <div class="status ${statusClass}">
-          ${escapeHtml(item.status || '未対応')}
-        </div>
+</div>
 
-        ${item.adminMessage ? `
-        <div class="admin-box">
+${
+item.photoUrl
+? `<img src="${escapeAttr(item.photoUrl)}" class="photo">`
+: ''
+}
 
-          <div class="admin-title">
-            管理者からのメッセージ
-          </div>
+<div class="status ${statusClass}">
+${escapeHtml(item.status || '未対応')}
+</div>
 
-          <div class="admin-text">
-            ${escapeHtml(item.adminMessage)}
-          </div>
+${item.adminMessage ? `
+<div class="admin-box">
 
-        </div>
-        ` : ''}
+<div class="admin-title">
+管理者からのメッセージ
+</div>
 
-        ${item.improvement ? `
-        <div class="improve-box">
+<div class="admin-text">
+${escapeHtml(item.adminMessage)}
+</div>
 
-          <div class="improve-title">
-            改善内容
-          </div>
+</div>
+` : ''}
 
-          <div class="improve-text">
-            ${escapeHtml(item.improvement)}
-          </div>
+${item.improvement ? `
+<div class="improve-box">
 
-        </div>
-        ` : ''}
+<div class="improve-title">
+改善内容
+</div>
 
-        ${item.afterPhotoUrl ? `
-        <div class="after-box">
+<div class="improve-text">
+${escapeHtml(item.improvement)}
+</div>
 
-          <div class="after-title">
-            改善後
-          </div>
+</div>
+` : ''}
 
-          <img
-            src="${escapeAttr(item.afterPhotoUrl)}"
-            class="after-photo">
+${item.afterPhotoUrl ? `
+<div class="after-box">
 
-        </div>
-        ` : ''}
+<div class="after-title">
+改善後
+</div>
 
-        ${item.responseDate ? `
-        <div class="response-date">
-          対応日：
-          ${escapeHtml(item.responseDate)}
-        </div>
-        ` : ''}
+<img
+src="${escapeAttr(item.afterPhotoUrl)}"
+class="after-photo">
 
-        ${
-          item.location
-          ? `
-            <a
-              href="https://maps.google.com/?q=${encodeURIComponent(item.location)}"
-              target="_blank"
-              class="map-btn">
-              Googleマップを見る
-            </a>
-          `
-          : ''
-        }
+</div>
+` : ''}
 
-        <div class="bottom-nav">
+${item.responseDate ? `
+<div class="response-date">
+対応日：
+${escapeHtml(item.responseDate)}
+</div>
+` : ''}
 
-          <a
-            href="index.html"
-            class="bottom-btn home-btn">
-            トップへ戻る
-          </a>
+${
+item.location
+? `
+<a
+href="https://maps.google.com/?q=${encodeURIComponent(item.location)}"
+target="_blank"
+class="map-btn">
+Googleマップを見る
+</a>
+`
+: ''
+}
 
-          <a
-            href="https://www.appsheet.com/start/76993072-05e5-4df2-85fe-30e175d313bc#table=%E5%BF%97%E6%9C%A8%E3%83%91%E3%83%88%E3%83%AD%E3%83%BC%E3%83%ABDX&page=form"
-            target="_blank"
-            class="bottom-btn post-btn">
-            通報する
-          </a>
+${item.status && item.status.includes('済') ? `
 
-        </div>
+<div class="share-box">
 
-      </div>
-    `;
-  });
+<div class="share-title">
+改善しましたを共有
+</div>
 
-  list.innerHTML = html;
+<div class="share-grid">
+
+<a
+class="share-btn fb-btn"
+target="_blank"
+href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}">
+Facebook
+</a>
+
+<a
+class="share-btn line-btn"
+target="_blank"
+href="https://line.me/R/msg/text/?${encodeURIComponent('改善しました｜志木パトロールDX ' + shareUrl)}">
+LINE
+</a>
+
+<a
+class="share-btn x-btn"
+target="_blank"
+href="https://twitter.com/intent/tweet?text=${encodeURIComponent('改善しました｜志木パトロールDX')}&url=${encodeURIComponent(shareUrl)}">
+X
+</a>
+
+<button
+class="share-btn copy-btn"
+onclick="copyUrl('${shareUrl}')">
+URLコピー
+</button>
+
+</div>
+
+</div>
+
+` : ''}
+
+<div class="bottom-nav">
+
+<a
+href="index.html"
+class="bottom-btn home-btn">
+トップへ戻る
+</a>
+
+<a
+href="https://www.appsheet.com/start/76993072-05e5-4df2-85fe-30e175d313bc#table=%E5%BF%97%E6%9C%A8%E3%83%91%E3%83%88%E3%83%AD%E3%83%BC%E3%83%ABDX&page=form"
+target="_blank"
+class="bottom-btn post-btn">
+通報する
+</a>
+
+</div>
+
+</div>
+`;
+});
+
+list.innerHTML = html;
 };
+
+function copyUrl(url){
+
+if(navigator.clipboard){
+
+navigator.clipboard.writeText(url)
+.then(function(){
+alert('URLをコピーしました');
+});
+
+}else{
+
+prompt('コピーしてください',url);
+
+}
+}
 
 function getStatusClass(status){
 
-  const s = String(status || '');
+const s = String(status || '');
 
-  if(s.includes('済')) return 'green';
-  if(s.includes('中')) return 'yellow';
-  if(s.includes('未')) return 'red';
+if(s.includes('済')) return 'green';
+if(s.includes('中')) return 'yellow';
+if(s.includes('未')) return 'red';
 
-  return 'blue';
+return 'blue';
 }
 
 function escapeHtml(str){
 
-  return String(str || '')
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;');
+return String(str || '')
+.replace(/&/g,'&amp;')
+.replace(/</g,'&lt;')
+.replace(/>/g,'&gt;');
 }
 
 function escapeAttr(str){
 
-  return escapeHtml(str)
-    .replace(/"/g,'&quot;');
+return escapeHtml(str)
+.replace(/"/g,'&quot;');
 }
 
 function showError(msg){
 
-  document.getElementById('list').innerHTML =
-    '<div class="error">' +
-    escapeHtml(msg) +
-    '</div>';
+document.getElementById('list').innerHTML =
+'<div class="error">' +
+escapeHtml(msg) +
+'</div>';
 }
 
 loadData();
