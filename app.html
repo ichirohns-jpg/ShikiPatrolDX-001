@@ -6,7 +6,9 @@
 <title>志木パトロールDX</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
 
 body{
   margin:0;
@@ -75,7 +77,6 @@ body{
   padding:16px;
   margin-bottom:22px;
   box-shadow:0 6px 18px rgba(0,0,0,.12);
-  text-align:left;
   overflow:hidden;
 }
 
@@ -237,6 +238,7 @@ body{
   font-weight:900;
   padding:16px 10px;
   border-radius:18px;
+  border:none;
 }
 
 .fb-btn{
@@ -340,267 +342,311 @@ class="post-btn">
 </div>
 
 <script>
+
 const GAS_URL =
 'https://script.google.com/macros/s/AKfycbxGj9p16DHK4zazArWIxQsIkdOungcIwkGknxicVc940rTQGUHgqME82fzFPXcyHkIQ/exec';
 
 function loadData(){
 
-const script = document.createElement('script');
+  const script = document.createElement('script');
 
-script.src =
-GAS_URL +
-'?callback=handlePatrolData&_=' +
-Date.now();
+  script.src =
+    GAS_URL +
+    '?callback=handlePatrolData&_=' +
+    Date.now();
 
-script.onerror = function(){
-showError('データを取得できませんでした');
-};
+  script.onerror = function(){
+    showError('データを取得できませんでした');
+  };
 
-document.body.appendChild(script);
+  document.body.appendChild(script);
 }
 
 window.handlePatrolData = function(res){
 
-if(!res || !res.ok){
-showError('データ取得エラー');
-return;
-}
+  if(!res || !res.ok){
+    showError('データ取得エラー');
+    return;
+  }
 
-const list = document.getElementById('list');
+  const list = document.getElementById('list');
 
-if(!res.data || res.data.length === 0){
-list.innerHTML =
-'<div class="error">投稿がありません</div>';
-return;
-}
+  if(!res.data || res.data.length === 0){
+    list.innerHTML =
+      '<div class="error">投稿がありません</div>';
+    return;
+  }
 
-let html = '';
+  let html = '';
 
-res.data.forEach(function(item,index){
+  res.data.forEach(function(item,index){
 
-const statusClass =
-getStatusClass(item.status);
+    const statusClass =
+      getStatusClass(item.status);
 
-const no =
-String(index + 1).padStart(3,'0');
+    const no =
+      String(index + 1).padStart(3,'0');
 
-const shareUrl =
-'https://ichirohns-jpg.github.io/ShikiPatrolDX-001/share-' +
-no +
-'.html';
+    const shareUrl =
+      'https://ichirohns-jpg.github.io/ShikiPatrolDX-001/share-' +
+      no +
+      '.html';
 
-html += `
-<div class="card">
+    const lineText =
+      '改善しました｜志木パトロールDX\n\n' +
 
-<div class="kind">
-${escapeHtml(item.kind || '地域情報')}
-</div>
+      '市民から寄せられた地域の異常について、対応状況と改善後の様子を公開しています。\n\n' +
 
-<div class="date">
-${escapeHtml(item.date || '')}
-</div>
+      '小さな気づきを、まちの安心につなげます。\n\n' +
 
-<div class="info-box">
+      '【内容】\n' +
+      (item.kind || '地域情報') + '\n\n' +
 
-<div class="info-label">
-内容
-</div>
+      '【詳細】\n' +
+      (item.detail || '') + '\n\n' +
 
-<div class="info-text">
-${escapeHtml(item.detail || '')}
-</div>
+      (item.improvement
+        ? '【改善内容】\n' + item.improvement + '\n\n'
+        : '') +
 
-</div>
+      (item.responseDate
+        ? '【対応日】\n' + item.responseDate + '\n\n'
+        : '') +
 
-${
-item.photoUrl
-? `<img src="${escapeAttr(item.photoUrl)}" class="photo">`
-: ''
-}
+      '▼ 詳しくはこちら\n' +
+      shareUrl;
 
-<div class="status ${statusClass}">
-${escapeHtml(item.status || '未対応')}
-</div>
+    const xText =
+      '改善しました｜志木パトロールDX\n' +
+      '市民から寄せられた地域の異常について、対応状況と改善後の様子を公開しています。\n' +
+      '小さな気づきを、まちの安心につなげます。';
 
-${item.adminMessage ? `
-<div class="admin-box">
+    html += `
 
-<div class="admin-title">
-管理者からのメッセージ
-</div>
+    <div class="card">
 
-<div class="admin-text">
-${escapeHtml(item.adminMessage)}
-</div>
+      <div class="kind">
+        ${escapeHtml(item.kind || '地域情報')}
+      </div>
 
-</div>
-` : ''}
+      <div class="date">
+        ${escapeHtml(item.date || '')}
+      </div>
 
-${item.improvement ? `
-<div class="improve-box">
+      <div class="info-box">
 
-<div class="improve-title">
-改善内容
-</div>
+        <div class="info-label">
+          内容
+        </div>
 
-<div class="improve-text">
-${escapeHtml(item.improvement)}
-</div>
+        <div class="info-text">
+          ${escapeHtml(item.detail || '')}
+        </div>
 
-</div>
-` : ''}
+      </div>
 
-${item.afterPhotoUrl ? `
-<div class="after-box">
+      ${
+        item.photoUrl
+        ? `<img src="${escapeAttr(item.photoUrl)}" class="photo">`
+        : ''
+      }
 
-<div class="after-title">
-改善後
-</div>
+      <div class="status ${statusClass}">
+        ${escapeHtml(item.status || '未対応')}
+      </div>
 
-<img
-src="${escapeAttr(item.afterPhotoUrl)}"
-class="after-photo">
+      ${item.adminMessage ? `
 
-</div>
-` : ''}
+      <div class="admin-box">
 
-${item.responseDate ? `
-<div class="response-date">
-対応日：
-${escapeHtml(item.responseDate)}
-</div>
-` : ''}
+        <div class="admin-title">
+          管理者からのメッセージ
+        </div>
 
-${
-item.location
-? `
-<a
-href="https://maps.google.com/?q=${encodeURIComponent(item.location)}"
-target="_blank"
-class="map-btn">
-Googleマップを見る
-</a>
-`
-: ''
-}
+        <div class="admin-text">
+          ${escapeHtml(item.adminMessage)}
+        </div>
 
-${item.status && item.status.includes('済') ? `
+      </div>
 
-<div class="share-box">
+      ` : ''}
 
-<div class="share-title">
-改善しましたを共有
-</div>
+      ${item.improvement ? `
 
-<div class="share-grid">
+      <div class="improve-box">
 
-<a
-class="share-btn fb-btn"
-target="_blank"
-href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}">
-Facebook
-</a>
+        <div class="improve-title">
+          改善内容
+        </div>
 
-<a
-class="share-btn line-btn"
-target="_blank"
-href="https://line.me/R/msg/text/?${encodeURIComponent('改善しました｜志木パトロールDX ' + shareUrl)}">
-LINE
-</a>
+        <div class="improve-text">
+          ${escapeHtml(item.improvement)}
+        </div>
 
-<a
-class="share-btn x-btn"
-target="_blank"
-href="https://twitter.com/intent/tweet?text=${encodeURIComponent('改善しました｜志木パトロールDX')}&url=${encodeURIComponent(shareUrl)}">
-X
-</a>
+      </div>
 
-<button
-class="share-btn copy-btn"
-onclick="copyUrl('${shareUrl}')">
-URLコピー
-</button>
+      ` : ''}
 
-</div>
+      ${item.afterPhotoUrl ? `
 
-</div>
+      <div class="after-box">
 
-` : ''}
+        <div class="after-title">
+          改善後
+        </div>
 
-<div class="bottom-nav">
+        <img
+          src="${escapeAttr(item.afterPhotoUrl)}"
+          class="after-photo">
 
-<a
-href="index.html"
-class="bottom-btn home-btn">
-トップへ戻る
-</a>
+      </div>
 
-<a
-href="https://www.appsheet.com/start/76993072-05e5-4df2-85fe-30e175d313bc#table=%E5%BF%97%E6%9C%A8%E3%83%91%E3%83%88%E3%83%AD%E3%83%BC%E3%83%ABDX&page=form"
-target="_blank"
-class="bottom-btn post-btn">
-通報する
-</a>
+      ` : ''}
 
-</div>
+      ${item.responseDate ? `
 
-</div>
-`;
-});
+      <div class="response-date">
+        対応日：
+        ${escapeHtml(item.responseDate)}
+      </div>
 
-list.innerHTML = html;
+      ` : ''}
+
+      ${
+        item.location
+        ? `
+          <a
+            href="https://maps.google.com/?q=${encodeURIComponent(item.location)}"
+            target="_blank"
+            class="map-btn">
+            Googleマップを見る
+          </a>
+        `
+        : ''
+      }
+
+      ${item.status && item.status.includes('済') ? `
+
+      <div class="share-box">
+
+        <div class="share-title">
+          改善しましたを共有
+        </div>
+
+        <div class="share-grid">
+
+          <a
+            class="share-btn fb-btn"
+            target="_blank"
+            href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}">
+            Facebook
+          </a>
+
+          <a
+            class="share-btn line-btn"
+            target="_blank"
+            href="https://line.me/R/msg/text/?${encodeURIComponent(lineText)}">
+            LINE
+          </a>
+
+          <a
+            class="share-btn x-btn"
+            target="_blank"
+            href="https://twitter.com/intent/tweet?text=${encodeURIComponent(xText)}&url=${encodeURIComponent(shareUrl)}">
+            X
+          </a>
+
+          <button
+            class="share-btn copy-btn"
+            onclick="copyText('${encodeURIComponent(lineText)}')">
+            文章コピー
+          </button>
+
+        </div>
+
+      </div>
+
+      ` : ''}
+
+      <div class="bottom-nav">
+
+        <a
+          href="index.html"
+          class="bottom-btn home-btn">
+          トップへ戻る
+        </a>
+
+        <a
+          href="https://www.appsheet.com/start/76993072-05e5-4df2-85fe-30e175d313bc#table=%E5%BF%97%E6%9C%A8%E3%83%91%E3%83%88%E3%83%AD%E3%83%BC%E3%83%ABDX&page=form"
+          target="_blank"
+          class="bottom-btn post-btn">
+          通報する
+        </a>
+
+      </div>
+
+    </div>
+
+    `;
+  });
+
+  list.innerHTML = html;
 };
 
-function copyUrl(url){
+function copyText(encodedText){
 
-if(navigator.clipboard){
+  const text =
+    decodeURIComponent(encodedText);
 
-navigator.clipboard.writeText(url)
-.then(function(){
-alert('URLをコピーしました');
-});
+  if(navigator.clipboard){
 
-}else{
+    navigator.clipboard.writeText(text)
+    .then(function(){
+      alert('文章をコピーしました');
+    });
 
-prompt('コピーしてください',url);
+  }else{
 
-}
+    prompt('コピーしてください',text);
+
+  }
 }
 
 function getStatusClass(status){
 
-const s = String(status || '');
+  const s = String(status || '');
 
-if(s.includes('済')) return 'green';
-if(s.includes('中')) return 'yellow';
-if(s.includes('未')) return 'red';
+  if(s.includes('済')) return 'green';
+  if(s.includes('中')) return 'yellow';
+  if(s.includes('未')) return 'red';
 
-return 'blue';
+  return 'blue';
 }
 
 function escapeHtml(str){
 
-return String(str || '')
-.replace(/&/g,'&amp;')
-.replace(/</g,'&lt;')
-.replace(/>/g,'&gt;');
+  return String(str || '')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;');
 }
 
 function escapeAttr(str){
 
-return escapeHtml(str)
-.replace(/"/g,'&quot;');
+  return escapeHtml(str)
+    .replace(/"/g,'&quot;');
 }
 
 function showError(msg){
 
-document.getElementById('list').innerHTML =
-'<div class="error">' +
-escapeHtml(msg) +
-'</div>';
+  document.getElementById('list').innerHTML =
+    '<div class="error">' +
+    escapeHtml(msg) +
+    '</div>';
 }
 
 loadData();
+
 </script>
 
 </body>
